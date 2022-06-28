@@ -5,15 +5,15 @@ const data = Mock.mock({
     id: '@id',
     title: '@sentence(10, 20)',
     'status|1': ['published', 'draft', 'deleted'],
-    author: 'name',
-    display_time: '@datetime',
-    pageviews: '@integer(300, 5000)'
+    owner: 'name',
+    created_at: '@datetime',
+    articles: '@integer(1, 5000)'
   }]
 })
 
 module.exports = [
   {
-    url: '/api/articles',
+    url: '/api/groups',
     type: 'get',
     response: config => {
       const items = data.items
