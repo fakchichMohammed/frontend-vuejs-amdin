@@ -45,6 +45,7 @@
       border
       fit
       highlight-current-row
+      @row-click="openDetails"
     >
       <el-table-column align="center" label="ID" width="95">
         <template slot-scope="scope">
@@ -144,8 +145,8 @@
           <el-button @click="dialogVisible = false">Cancel</el-button>
           <el-button
             type="primary"
-            @click="dialogVisible = false"
-          >Confirm</el-button>
+            @click="onEdit"
+          >Edit</el-button>
         </span>
       </template>
     </el-dialog>
@@ -251,6 +252,15 @@ export default {
     cancelDelete() {
       this.visible = false
       this.$emit('onCancel')
+    },
+    onEdit(row) {
+      // update group
+      console.log('Edit group', row)
+      this.dialogVisible = false
+    },
+    openDetails(row) {
+      // redirect to list of articles of the group
+      alert(row.id)
     }
   }
 }
