@@ -1,9 +1,9 @@
 <template>
   <div class="login-container">
     <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
+      ref="RegisterForm"
+      :model="RegisterForm"
+      :rules="RegisterRules"
       class="login-form"
       auto-complete="on"
       label-position="left"
@@ -12,13 +12,13 @@
         <h3 class="title">Create Author Profile</h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="firstname">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
           ref="firstname"
-          v-model="LoginForm.firstname"
+          v-model="RegisterForm.firstname"
           placeholder="First name"
           name="firstname"
           type="text"
@@ -30,7 +30,7 @@
         <el-form-item prop="lastname">
         <el-input
           ref="lastname"
-          v-model="LoginForm.lastname"
+          v-model="RegisterForm.lastname"
           placeholder="Last name"
           name="lastname"
           type="text"
@@ -41,20 +41,19 @@
         <el-form-item prop="username">
         <el-input
           ref="username"
-          v-model="LoginForm.username"
+          v-model="RegisterForm.username"
           placeholder="User name"
           name="username"
           type="text"
           tabindex="1"
           auto-complete="on"
         />
-      </el-form-item>
-
-        
+        </el-form-item>
+    
         <el-form-item prop="email">
         <el-input
           ref="email"
-          v-model="LoginForm.email"
+          v-model="RegisterForm.email"
           placeholder="Email"
           name="email"
           type="text"
@@ -62,7 +61,25 @@
           auto-complete="on"
         />
       </el-form-item>
-
+       <el-form-item prop="test">
+        <span class="svg-container">
+          <svg-icon icon-class="password" />
+        </span>
+        <el-input
+          :key="testType"
+          ref="test"
+          v-model="RegisterForm.test"
+          type="text"
+          placeholder="test"
+          name="test"
+          tabindex="2"
+          auto-complete="on"
+          @keyup.enter.native="handleRegister"
+        />
+        <span class="show-pwd" @click="showPwd">
+          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+        </span>
+      </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
@@ -70,13 +87,13 @@
         <el-input
           :key="passwordType"
           ref="password"
-          v-model="LoginForm.password"
+          v-model="RegisterForm.password"
           :type="passwordType"
           placeholder="Password"
           name="password"
           tabindex="2"
           auto-complete="on"
-          @keyup.enter.native="handleLogin"
+          @keyup.enter.native="handleRegister"
         />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
@@ -87,7 +104,7 @@
         :loading="loading"
         type="primary"
         style="width: 100%; margin-bottom: 30px"
-        @click.native.prevent="handleLogin"
+        @click.native.prevent="handleRegister"
       >Register</el-button>
     </el-form>
   </div>
@@ -99,15 +116,38 @@
 import { validUsername } from '@/utils/validate'
 
 export default {
-  name: 'Login',
+  name: 'Register',
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+
+    const validateFirstname = (rule, value, callback) => {
+      if (value.length < 6  ) {
+        callback(new Error(' Your first name can not be less than fn digits'))
       } else {
         callback()
       }
     }
+    const validateLastname = (rule, value, callback) => {
+      if (value.length < 3) {
+        callback(new Error(' Your last name can not be less than ln digits'))
+      } else {
+        callback()
+      }
+    }
+    const validateUsername = (rule, value, callback) => {
+      if (value.length < 3) {
+        callback(new Error(' Your user name can not be less than un digits'))
+      } else {
+        callback()
+      }
+    }
+    const validateEmail = (rule, value, callback) => {
+      if (value.length < 3) {
+        callback(new Error(' please enter a correct email adress'))
+      } else {
+        callback()
+      }
+    }
+
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
         callback(new Error('The password can not be less than 6 digits'))
@@ -115,14 +155,30 @@ export default {
         callback()
       }
     }
+ const validateTest = (rule, value, callback) => {
+      if (value.length < 6) {
+        callback(new Error('The password can not be less than 6 digits'))
+      } else {
+        callback()
+      }
+    }
+
     return {
-      loginForm: {
-        username: 'admin',
-        password: '111111'
+      RegisterForm: {
+        firstname: '',
+        lastname: '',
+        username: '',
+        email: '',
+        password: '',
+        test: ''
       },
-      loginRules: {
+      RegisterRules: {
+        firstname: [{ required: true, trigger: 'blur', validator: validateFirstname }],
+        lastname: [{ required: true, trigger: 'blur', validator: validateLastname }],
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        email: [{ required: true, trigger: 'blur', validator: validateEmail }],
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        test: [{ required: true, trigger: 'blur', validator: validateTest }]
       },
       loading: false,
       passwordType: 'password',
@@ -148,13 +204,13 @@ export default {
         this.$refs.password.focus()
       })
     },
-    handleLogin() {
+    handleRegister() {
       this.$router.push({ path: this.redirect || '/' })
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.RegisterForm.validate((valid) => {
         if (valid) {
           this.loading = true
           this.$store
-            .dispatch('user/login', this.loginForm)
+            .dispatch('user/', this.RegisterForm)
             .then(() => {
               this.$router.push({ path: this.redirect || '/' })
               this.loading = false
@@ -163,13 +219,47 @@ export default {
               this.loading = false
             })
         } else {
-          console.log('error submit!!')
+          console.log('Registration error!!')
           return false
         }
       })
     }
   }
 }
+
+
+
+
+
+//   export default{
+//   el: 'Register',
+//   data (){
+//     return {
+//       form :{
+//         firstname: '',
+//         lastname: '',
+//         username: '',
+//         email:'',
+//         password: ''
+//       }  
+//     }
+//   },
+//   methods: {
+//     RegisterForm() {
+//       const firstnameIsValid = !!this.RegisterForm.firstname
+//       const lastnameIsValid = !!this.RegisterForm.lastname
+//       const usernameIsValid = !!this.RegisterForm.username
+//       const emailIsValid = !!this.RegisterForm.email
+//       const passwordIsValid = !!this.RegisterForm.lastname
+//       const formIsValid = firstnameIsValid && lastnameIsValid && usernameIsValid && emailIsValid && passwordIsValid
+//       if(formIsValid) {
+//         console.log('form submitted', this.form)
+//       } else {
+//         console.log('invalid form')
+//       }  
+//     }
+//   }
+// }
 </script>
 
 <style lang="scss">
