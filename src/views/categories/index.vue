@@ -26,16 +26,17 @@
       border
       fit
       highlight-current-row
-      @row-click="openDetails"
     >
       <el-table-column align="center" label="ID" width="95">
         <template slot-scope="scope">
           {{ scope.$index }}
         </template>
       </el-table-column>
-      <el-table-column label="Title">
+      <el-table-column label="Title" @row-click="openDetails">
         <template slot-scope="scope">
-          {{ scope.row.title }}
+          <el-link @click="openDetails(scope.row)">
+            {{ scope.row.title }}
+          </el-link>
         </template>
       </el-table-column>
       <el-table-column label="Owner" width="190" align="center">
