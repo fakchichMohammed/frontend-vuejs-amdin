@@ -108,13 +108,13 @@
     </el-table>
     <!-- dialog edit form -->
     <el-dialog :visible="dialogVisible" title="Edit your group" width="70%">
-      <el-form ref="form" :model="form" label-width="120px">
+      <el-form ref="formEdit" :model="form" label-width="120px">
         <el-form-item label="Group title">
-          <el-input v-model="form.title" placeholder="Type your group title" />
+          <el-input v-model="formEdit.title" placeholder="Type your group title" />
         </el-form-item>
         <el-form-item label="List of articles">
           <el-select
-            v-model="form.value"
+            v-model="formEdit.value"
             style="display: block"
             multiple
             col="12"
@@ -124,7 +124,7 @@
             placeholder="Choose articles for your group"
           >
             <el-option
-              v-for="item in form.options"
+              v-for="item in formEdit.options"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -133,7 +133,7 @@
         </el-form-item>
         <el-form-item label="Description">
           <el-input
-            v-model="form.desc"
+            v-model="formEdit.desc"
             type="textarea"
             placeholder="Describe your group"
           />
@@ -187,6 +187,12 @@ export default {
           }
         ]
       },
+      formEdit: {
+        title: '',
+        desc: '',
+        value: [],
+        options: []
+      },
       dialogVisible: false,
       canEdit: true,
       list: null,
@@ -222,8 +228,8 @@ export default {
     },
     deleteClick() {},
     editClick(row) {
-      this.form.title = row.title
-      this.form.desc = row.description
+      this.formEdit.title = row.title
+      this.formEdit.desc = row.description
       this.getArticles(row.id)
       this.dialogVisible = true
       this.canEdit = false
@@ -231,7 +237,7 @@ export default {
     getArticles(groupId) {
       // fetch articles of the group
       console.log(groupId)
-      this.form.value = [
+      this.formEdit.value = [
         'Mon article sur la block chaine que je ne kiff pas trou mais woow que du bkabka',
         'CSS',
         'JavaScript'
