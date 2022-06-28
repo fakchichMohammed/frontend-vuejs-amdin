@@ -80,7 +80,30 @@ export const constantRoutes = [
       } */
     ]
   },
-
+  {
+    path: '/nested',
+    component: Layout,
+    redirect: '/requests/inbox',
+    name: 'Requests',
+    meta: {
+      title: 'Requests',
+      icon: 'nested'
+    },
+    children: [
+      {
+        path: 'inbox',
+        component: () => import('@/views/publisher/requests/inbox/index'),
+        name: 'Inbox',
+        meta: { title: 'inbox' }
+      },
+      {
+        path: 'reviewed',
+        component: () => import('@/views/publisher/requests/reviewed/index'),
+        name: 'Reviewed',
+        meta: { title: 'reviewed' }
+      }
+    ]
+  },
   {
     path: '/form',
     component: Layout,
@@ -93,7 +116,6 @@ export const constantRoutes = [
       }
     ]
   },
-  
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
