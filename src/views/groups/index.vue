@@ -45,6 +45,7 @@
       border
       fit
       highlight-current-row
+      @row-click="openDetails"
     >
       <el-table-column align="center" label="ID" width="95">
         <template slot-scope="scope">
@@ -256,6 +257,10 @@ export default {
       // update group
       console.log('Edit group', row)
       this.dialogVisible = false
+    },
+    openDetails(row) {
+      // redirect to list of articles of the group
+      alert(row.id)
     }
   }
 }
