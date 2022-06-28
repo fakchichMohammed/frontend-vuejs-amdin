@@ -144,8 +144,8 @@
           <el-button @click="dialogVisible = false">Cancel</el-button>
           <el-button
             type="primary"
-            @click="dialogVisible = false"
-          >Confirm</el-button>
+            @click="onEdit"
+          >Edit</el-button>
         </span>
       </template>
     </el-dialog>
@@ -251,6 +251,11 @@ export default {
     cancelDelete() {
       this.visible = false
       this.$emit('onCancel')
+    },
+    onEdit(row) {
+      // update group
+      console.log('Edit group', row)
+      this.dialogVisible = false
     }
   }
 }
