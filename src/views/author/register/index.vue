@@ -61,25 +61,8 @@
           auto-complete="on"
         />
       </el-form-item>
-       <el-form-item prop="test">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
-        <el-input
-          :key="testType"
-          ref="test"
-          v-model="RegisterForm.test"
-          type="text"
-          placeholder="test"
-          name="test"
-          tabindex="2"
-          auto-complete="on"
-          @keyup.enter.native="handleRegister"
-        />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-        </span>
-      </el-form-item>
+       
+      
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
