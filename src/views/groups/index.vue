@@ -106,6 +106,49 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- dialog edit form -->
+    <el-dialog :visible="dialogVisible" title="Edit your group" width="70%">
+      <el-form ref="form" :model="form" label-width="120px">
+        <el-form-item label="Group title">
+          <el-input v-model="form.title" placeholder="Type your group title" />
+        </el-form-item>
+        <el-form-item label="List of articles">
+          <el-select
+            v-model="form.value"
+            style="display: block"
+            multiple
+            col="12"
+            filterable
+            default-first-option
+            :reserve-keyword="false"
+            placeholder="Choose articles for your group"
+          >
+            <el-option
+              v-for="item in form.options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Description">
+          <el-input
+            v-model="form.desc"
+            type="textarea"
+            placeholder="Describe your group"
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogVisible = false">Cancel</el-button>
+          <el-button
+            type="primary"
+            @click="dialogVisible = false"
+          >Confirm</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -144,6 +187,7 @@ export default {
           }
         ]
       },
+      dialogVisible: false,
       canEdit: true,
       list: null,
       listLoading: true,
@@ -181,6 +225,7 @@ export default {
       this.form.title = row.title
       this.form.desc = row.description
       this.getArticles(row.id)
+      this.dialogVisible = true
       this.canEdit = false
     },
     getArticles(groupId) {
