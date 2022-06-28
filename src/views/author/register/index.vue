@@ -111,20 +111,20 @@ export default {
     }
     const validateLastname = (rule, value, callback) => {
       if (value.length < 3) {
-        callback(new Error(' Your last name can not be less than ln digits'))
+        callback(new Error(' Your last name can not be less than 3 digits'))
       } else {
         callback()
       }
     }
     const validateUsername = (rule, value, callback) => {
       if (value.length < 3) {
-        callback(new Error(' Your user name can not be less than un digits'))
+        callback(new Error(' Your user name can not be less than 3 digits'))
       } else {
         callback()
       }
     }
     const validateEmail = (rule, value, callback) => {
-      if (value.length < 3) {
+      if (value.length < 6) {
         callback(new Error(' please enter a correct email adress'))
       } else {
         callback()
@@ -138,13 +138,7 @@ export default {
         callback()
       }
     }
- const validateTest = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
+ 
 
     return {
       RegisterForm: {
@@ -152,8 +146,8 @@ export default {
         lastname: '',
         username: '',
         email: '',
-        password: '',
-        test: ''
+        password: ''
+        
       },
       RegisterRules: {
         firstname: [{ required: true, trigger: 'blur', validator: validateFirstname }],
@@ -161,7 +155,7 @@ export default {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         email: [{ required: true, trigger: 'blur', validator: validateEmail }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }],
-        test: [{ required: true, trigger: 'blur', validator: validateTest }]
+        
       },
       loading: false,
       passwordType: 'password',
