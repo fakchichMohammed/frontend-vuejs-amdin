@@ -34,11 +34,23 @@ export const constantRoutes = [
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
+  {
+    path: '/groups',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Groups',
+        component: () => import('@/views/groups/index'),
+        meta: { title: 'Groups', icon: 'form' }
+      }
+    ]
+  },
 
   {
     path: '/articles',
     component: Layout,
-    redirect: '/articles/list',
+    redirect: '/articles',
     name: 'Articles',
     meta: { title: 'Articles', icon: 'el-icon-s-help' },
     children: [
