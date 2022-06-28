@@ -1,33 +1,14 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="Group title">
-        <el-input v-model="form.title" placeholder="Type your group title" />
-      </el-form-item>
-      <el-form-item label="List of articles">
-        <el-select
-          v-model="form.value"
-          style="display: block"
-          multiple
-          col="12"
-          filterable
-          default-first-option
-          :reserve-keyword="false"
-          placeholder="Choose articles for your group"
-        >
-          <el-option
-            v-for="item in form.options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
+      <el-form-item label="Category title">
+        <el-input v-model="form.title" placeholder="Type your category title" />
       </el-form-item>
       <el-form-item label="Description">
         <el-input
           v-model="form.desc"
           type="textarea"
-          placeholder="Describe your group"
+          placeholder="Describe your category"
         />
       </el-form-item>
       <el-form-item>
@@ -51,7 +32,7 @@
           {{ scope.$index }}
         </template>
       </el-table-column>
-      <el-table-column label="Title">
+      <el-table-column label="Title" @row-click="openDetails">
         <template slot-scope="scope">
           <el-link @click="openDetails(scope.row)">
             {{ scope.row.title }}
@@ -61,11 +42,6 @@
       <el-table-column label="Owner" width="190" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.owner }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="Articles" width="90" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.articles }}
         </template>
       </el-table-column>
       <el-table-column
@@ -154,7 +130,7 @@
   </div>
 </template>
 <script>
-import { getList } from '@/api/groups'
+import { getList } from '@/api/categories'
 
 export default {
   filters: {

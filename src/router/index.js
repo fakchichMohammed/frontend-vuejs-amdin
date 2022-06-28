@@ -46,6 +46,18 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/categories',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Categories',
+        component: () => import('@/views/categories/index'),
+        meta: { title: 'Categories', icon: 'form' }
+      }
+    ]
+  },
 
   {
     path: '/articles',
