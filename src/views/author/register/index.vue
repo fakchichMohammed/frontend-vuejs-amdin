@@ -113,153 +113,153 @@
 
 
 <script>
-import { validUsername } from '@/utils/validate'
+// import { validUsername } from '@/utils/validate'
 
-export default {
-  name: 'Register',
-  data() {
+// export default {
+//   name: 'Register',
+//   data() {
 
-    const validateFirstname = (rule, value, callback) => {
-      if (value.length < 6  ) {
-        callback(new Error(' Your first name can not be less than fn digits'))
-      } else {
-        callback()
-      }
-    }
-    const validateLastname = (rule, value, callback) => {
-      if (value.length < 3) {
-        callback(new Error(' Your last name can not be less than ln digits'))
-      } else {
-        callback()
-      }
-    }
-    const validateUsername = (rule, value, callback) => {
-      if (value.length < 3) {
-        callback(new Error(' Your user name can not be less than un digits'))
-      } else {
-        callback()
-      }
-    }
-    const validateEmail = (rule, value, callback) => {
-      if (value.length < 3) {
-        callback(new Error(' please enter a correct email adress'))
-      } else {
-        callback()
-      }
-    }
+//     const validateFirstname = (rule, value, callback) => {
+//       if (value.length < 6  ) {
+//         callback(new Error(' Your first name can not be less than fn digits'))
+//       } else {
+//         callback()
+//       }
+//     }
+//     const validateLastname = (rule, value, callback) => {
+//       if (value.length < 3) {
+//         callback(new Error(' Your last name can not be less than ln digits'))
+//       } else {
+//         callback()
+//       }
+//     }
+//     const validateUsername = (rule, value, callback) => {
+//       if (value.length < 3) {
+//         callback(new Error(' Your user name can not be less than un digits'))
+//       } else {
+//         callback()
+//       }
+//     }
+//     const validateEmail = (rule, value, callback) => {
+//       if (value.length < 3) {
+//         callback(new Error(' please enter a correct email adress'))
+//       } else {
+//         callback()
+//       }
+//     }
 
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
- const validateTest = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
+//     const validatePassword = (rule, value, callback) => {
+//       if (value.length < 6) {
+//         callback(new Error('The password can not be less than 6 digits'))
+//       } else {
+//         callback()
+//       }
+//     }
+//  const validateTest = (rule, value, callback) => {
+//       if (value.length < 6) {
+//         callback(new Error('The password can not be less than 6 digits'))
+//       } else {
+//         callback()
+//       }
+//     }
 
-    return {
-      RegisterForm: {
-        firstname: '',
-        lastname: '',
-        username: '',
-        email: '',
-        password: '',
-        test: ''
-      },
-      RegisterRules: {
-        firstname: [{ required: true, trigger: 'blur', validator: validateFirstname }],
-        lastname: [{ required: true, trigger: 'blur', validator: validateLastname }],
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        email: [{ required: true, trigger: 'blur', validator: validateEmail }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
-        test: [{ required: true, trigger: 'blur', validator: validateTest }]
-      },
-      loading: false,
-      passwordType: 'password',
-      redirect: undefined
-    }
-  },
-  watch: {
-    $route: {
-      handler: function(route) {
-        this.redirect = route.query && route.query.redirect
-      },
-      immediate: true
-    }
-  },
-  methods: {
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
-    },
-    handleRegister() {
-      this.$router.push({ path: this.redirect || '/' })
-      this.$refs.RegisterForm.validate((valid) => {
-        if (valid) {
-          this.loading = true
-          this.$store
-            .dispatch('user/', this.RegisterForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/' })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
-        } else {
-          console.log('Registration error!!')
-          return false
-        }
-      })
-    }
-  }
-}
-
-
-
-
-
-//   export default{
-//   el: 'Register',
-//   data (){
 //     return {
-//       form :{
+//       RegisterForm: {
 //         firstname: '',
 //         lastname: '',
 //         username: '',
-//         email:'',
-//         password: ''
-//       }  
+//         email: '',
+//         password: '',
+//         test: ''
+//       },
+//       RegisterRules: {
+//         firstname: [{ required: true, trigger: 'blur', validator: validateFirstname }],
+//         lastname: [{ required: true, trigger: 'blur', validator: validateLastname }],
+//         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+//         email: [{ required: true, trigger: 'blur', validator: validateEmail }],
+//         password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+//         test: [{ required: true, trigger: 'blur', validator: validateTest }]
+//       },
+//       loading: false,
+//       passwordType: 'password',
+//       redirect: undefined
+//     }
+//   },
+//   watch: {
+//     $route: {
+//       handler: function(route) {
+//         this.redirect = route.query && route.query.redirect
+//       },
+//       immediate: true
 //     }
 //   },
 //   methods: {
-//     RegisterForm() {
-//       const firstnameIsValid = !!this.RegisterForm.firstname
-//       const lastnameIsValid = !!this.RegisterForm.lastname
-//       const usernameIsValid = !!this.RegisterForm.username
-//       const emailIsValid = !!this.RegisterForm.email
-//       const passwordIsValid = !!this.RegisterForm.lastname
-//       const formIsValid = firstnameIsValid && lastnameIsValid && usernameIsValid && emailIsValid && passwordIsValid
-//       if(formIsValid) {
-//         console.log('form submitted', this.form)
+//     showPwd() {
+//       if (this.passwordType === 'password') {
+//         this.passwordType = ''
 //       } else {
-//         console.log('invalid form')
-//       }  
+//         this.passwordType = 'password'
+//       }
+//       this.$nextTick(() => {
+//         this.$refs.password.focus()
+//       })
+//     },
+//     handleRegister() {
+//       this.$router.push({ path: this.redirect || '/' })
+//       this.$refs.RegisterForm.validate((valid) => {
+//         if (valid) {
+//           this.loading = true
+//           this.$store
+//             .dispatch('user/', this.RegisterForm)
+//             .then(() => {
+//               this.$router.push({ path: this.redirect || '/' })
+//               this.loading = false
+//             })
+//             .catch(() => {
+//               this.loading = false
+//             })
+//         } else {
+//           console.log('Registration error!!')
+//           return false
+//         }
+//       })
 //     }
 //   }
 // }
+
+
+
+
+
+  export default{
+  el: 'Register',
+  data (){
+    return {
+      form :{
+        firstname: '',
+        lastname: '',
+        username: '',
+        email:'',
+        password: ''
+      }  
+    }
+  },
+  methods: {
+    RegisterForm() {
+      const firstnameIsValid = !!this.RegisterForm.firstname
+      const lastnameIsValid = !!this.RegisterForm.lastname
+      const usernameIsValid = !!this.RegisterForm.username
+      const emailIsValid = !!this.RegisterForm.email
+      const passwordIsValid = !!this.RegisterForm.lastname
+      const formIsValid = firstnameIsValid && lastnameIsValid && usernameIsValid && emailIsValid && passwordIsValid
+      if(formIsValid) {
+        console.log('form submitted', this.form)
+      } else {
+        console.log('invalid form')
+      }  
+    }
+  }
+}
 </script>
 
 <style lang="scss">
