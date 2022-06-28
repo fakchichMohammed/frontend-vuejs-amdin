@@ -24,7 +24,11 @@
         </el-select>
       </el-form-item>
       <el-form-item label="Description">
-        <el-input v-model="form.desc" type="textarea" placeholder="Describe your group" />
+        <el-input
+          v-model="form.desc"
+          type="textarea"
+          placeholder="Describe your group"
+        />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">Create</el-button>
@@ -62,17 +66,18 @@
           {{ scope.row.articles }}
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="Created_at" width="200">
+      <el-table-column
+        align="center"
+        prop="created_at"
+        label="Created_at"
+        width="200"
+      >
         <template slot-scope="scope">
           <i class="el-icon-time" />
           <span>{{ scope.row.created_at }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        fixed="right"
-        label="Operations"
-        width="120"
-      >
+      <el-table-column fixed="right" label="Operations" width="120">
         <template slot-scope="scope">
           <el-button
             type="text"
@@ -81,13 +86,23 @@
           >
             Edit
           </el-button>
-          <el-button
-            type="text"
-            size="small"
-            @click.native.prevent="deleteClick(scope.row)"
+          <el-popconfirm
+            confirm-button-text="Delete"
+            cancel-button-text="No thanks"
+            confirm-button-type="danger"
+            icon-color="#F56C6C"
+            title="Are you sure to delete this?"
+            @onConfirm="confirm(scope.row)"
+            @onCancel.native.prevent="cancel"
           >
-            Delete
-          </el-button>
+            <template #reference>
+              <el-link
+                class="el-btn "
+                type="danger"
+                :underline="false"
+              >Delete</el-link>
+            </template>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -95,6 +110,7 @@
 </template>
 <script>
 import { getList } from '@/api/groups'
+
 export default {
   filters: {
     statusFilter(status) {
@@ -115,7 +131,8 @@ export default {
         options: [
           {
             value: 'HTML',
-            label: 'Mon article sur la block chaine que je ne kiff pas trou mais woow que du bkabka'
+            label:
+              'Mon article sur la block chaine que je ne kiff pas trou mais woow que du bkabka'
           },
           {
             value: 'CSS',
@@ -128,7 +145,10 @@ export default {
         ]
       },
       list: null,
-      listLoading: true
+      listLoading: true,
+      confirmEvent: () => {
+        console.log('confirm!')
+      }
     }
   },
   created() {
@@ -146,13 +166,12 @@ export default {
     },
     fetchData() {
       this.listLoading = true
-      getList().then(response => {
+      getList().then((response) => {
         this.list = response.data.items
         this.listLoading = false
       })
     },
-    deleteClick() {
-    },
+    deleteClick() {},
     editClick(row) {
       this.form.title = row.title
       this.form.desc = row.description
@@ -166,6 +185,15 @@ export default {
         'CSS',
         'JavaScript'
       ]
+    },
+    confirm(row) {
+      console.log('clicked on delete', row)
+      this.visible = false
+      this.$emit('onConfirm')
+    },
+    cancel() {
+      this.visible = false
+      this.$emit('onCancel')
     }
   }
 }
@@ -174,5 +202,11 @@ export default {
 <style scoped>
 .line {
   text-align: center;
+}
+.el-btn{
+  padding: 0.7em;
+}
+.red-el-btn{
+  color: '#F56C6C'
 }
 </style>
