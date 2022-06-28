@@ -9,7 +9,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">Login</h3>
+        <h3 class="title">Create Author Profile</h3>
       </div>
 
       <el-form-item prop="username">
@@ -17,29 +17,46 @@
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
-          type="text"
-          tabindex="1"
-          auto-complete="on"
-        />
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
+          ref="firstname"
+          v-model="LoginForm.firstname"
+          placeholder="First name"
+          name="firstname"
           type="text"
           tabindex="1"
           auto-complete="on"
         />
         </el-form-item>
+
+        <el-form-item prop="lastname">
+        <el-input
+          ref="lastname"
+          v-model="LoginForm.lastname"
+          placeholder="Last name"
+          name="lastname"
+          type="text"
+          tabindex="1"
+          auto-complete="on"
+        />
+        </el-form-item>
+        <el-form-item prop="username">
         <el-input
           ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
+          v-model="LoginForm.username"
+          placeholder="User name"
           name="username"
+          type="text"
+          tabindex="1"
+          auto-complete="on"
+        />
+      </el-form-item>
+
+        
+        <el-form-item prop="email">
+        <el-input
+          ref="email"
+          v-model="LoginForm.email"
+          placeholder="Email"
+          name="email"
           type="text"
           tabindex="1"
           auto-complete="on"
@@ -53,7 +70,7 @@
         <el-input
           :key="passwordType"
           ref="password"
-          v-model="loginForm.password"
+          v-model="LoginForm.password"
           :type="passwordType"
           placeholder="Password"
           name="password"
@@ -71,42 +88,12 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-      >Login</el-button>
+      >Register</el-button>
     </el-form>
   </div>
 </template>
 
-<!-- <template>
-  <div id="app">
-    <form @submit.prevent="login">
-      <div>
-        <label for="username">username</label>
-        <input name="username" v-model="username" placeholder="username">
-      </div>
-      <div>
-        <label for="password">password</label>
-        <input name="password" v-model="password" placeholder="password" type="password">
-      </div>
-      <div>
-        <label for="firstName">first name</label>
-        <input name="firstName" v-model="firstName" placeholder="first name">
-      </div>
-      <div>
-        <label for="lastName">last name</label>
-        <input name="lastName" v-model="lastName" placeholder="last name">
-      </div>
-      <div>
-        <label for="age">age</label>
-        <input name="age" v-model="age" placeholder="age" type="number">
-      </div>
-      <div>
-        <label for="address">address</label>
-        <input name="address" v-model="address" placeholder="address">
-      </div>
-      <input type="submit" value="register">
-    </form>
-  </div>
-</template> -->
+
 
 <script>
 import { validUsername } from '@/utils/validate'
