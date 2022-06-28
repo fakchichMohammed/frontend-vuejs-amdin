@@ -92,14 +92,15 @@
             confirm-button-type="danger"
             icon-color="#F56C6C"
             title="Are you sure to delete this?"
-            @onConfirm.native.prevent="confirm(scope.row)"
+            @onConfirm="confirm(scope.row)"
             @onCancel.native.prevent="cancel"
           >
             <template #reference>
-              <el-button
-                type="text"
-                size="small"
-              >Delete</el-button>
+              <el-link
+                class="el-btn "
+                type="danger"
+                :underline="false"
+              >Delete</el-link>
             </template>
           </el-popconfirm>
         </template>
@@ -186,7 +187,7 @@ export default {
       ]
     },
     confirm(row) {
-      console.log(row)
+      console.log('clicked on delete', row)
       this.visible = false
       this.$emit('onConfirm')
     },
@@ -202,7 +203,10 @@ export default {
 .line {
   text-align: center;
 }
-el-button{
-  margin-left: 0.4em;
+.el-btn{
+  padding: 0.7em;
+}
+.red-el-btn{
+  color: '#F56C6C'
 }
 </style>
