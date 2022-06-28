@@ -32,7 +32,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">Create</el-button>
-        <el-button @click="onCancel">Cancel</el-button>
+        <el-button :disabled="canEdit" @click="onCancel">Cancel</el-button>
       </el-form-item>
     </el-form>
     <br>
@@ -92,8 +92,8 @@
             confirm-button-type="danger"
             icon-color="#F56C6C"
             title="Are you sure to delete this?"
-            @onConfirm="confirm(scope.row)"
-            @onCancel.native.prevent="cancel"
+            @onConfirm="confirmDelete(scope.row)"
+            @onCancel="cancelDelete"
           >
             <template #reference>
               <el-link
@@ -144,6 +144,7 @@ export default {
           }
         ]
       },
+      canEdit: true,
       list: null,
       listLoading: true,
       confirmEvent: () => {
@@ -156,9 +157,13 @@ export default {
   },
   methods: {
     onSubmit() {
+      // post new group
       this.$message('submit!')
     },
     onCancel() {
+      this.form.title = ''
+      this.form.desc = ''
+      this.form.value = []
       this.$message({
         message: 'cancel!',
         type: 'warning'
@@ -176,6 +181,7 @@ export default {
       this.form.title = row.title
       this.form.desc = row.description
       this.getArticles(row.id)
+      this.canEdit = false
     },
     getArticles(groupId) {
       // fetch articles of the group
@@ -186,12 +192,12 @@ export default {
         'JavaScript'
       ]
     },
-    confirm(row) {
+    confirmDelete(row) {
       console.log('clicked on delete', row)
       this.visible = false
       this.$emit('onConfirm')
     },
-    cancel() {
+    cancelDelete() {
       this.visible = false
       this.$emit('onCancel')
     }
