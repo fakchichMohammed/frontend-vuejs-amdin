@@ -85,29 +85,10 @@
       </el-table-column>
     </el-table>
     <!-- dialog edit form -->
-    <el-dialog :visible="dialogVisible" title="Edit your group" width="70%">
+    <el-dialog :visible="dialogVisible" title="Edit your category" width="70%">
       <el-form ref="formEdit" :model="form" label-width="120px">
         <el-form-item label="Group title">
           <el-input v-model="formEdit.title" placeholder="Type your group title" />
-        </el-form-item>
-        <el-form-item label="List of articles">
-          <el-select
-            v-model="formEdit.value"
-            style="display: block"
-            multiple
-            col="12"
-            filterable
-            default-first-option
-            :reserve-keyword="false"
-            placeholder="Choose articles for your group"
-          >
-            <el-option
-              v-for="item in formEdit.options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
         </el-form-item>
         <el-form-item label="Description">
           <el-input
