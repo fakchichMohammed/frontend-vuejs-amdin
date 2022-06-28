@@ -43,11 +43,6 @@
           <span>{{ scope.row.owner }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Articles" width="90" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.articles }}
-        </template>
-      </el-table-column>
       <el-table-column
         align="center"
         prop="created_at"
@@ -134,7 +129,7 @@
   </div>
 </template>
 <script>
-import { getList } from '@/api/groups'
+import { getList } from '@/api/categories'
 
 export default {
   filters: {
