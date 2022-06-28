@@ -13,7 +13,7 @@ const data = Mock.mock({
 
 module.exports = [
   {
-    url: '/blogger-admin-dashboard/articles/list',
+    url: '/api/articles/list',
     type: 'get',
     response: config => {
       const items = data.items

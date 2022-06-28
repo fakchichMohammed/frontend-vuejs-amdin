@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getList(params) {
   return request({
-    url: '/blogger-admin-dashboard/articles/list',
+    url: '/api/articles/list',
     method: 'get',
     params
   })
