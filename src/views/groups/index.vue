@@ -25,7 +25,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="Description">
-        <el-input v-model="form.desc" type="textarea" placeholder="Describe your group"/>
+        <el-input v-model="form.desc" type="textarea" placeholder="Describe your group" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">Create</el-button>
@@ -67,6 +67,28 @@
         <template slot-scope="scope">
           <i class="el-icon-time" />
           <span>{{ scope.row.created_at }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        fixed="right"
+        label="Operations"
+        width="120"
+      >
+        <template slot-scope="scope">
+          <el-button
+            type="text"
+            size="small"
+            @click.native.prevent="editClick(scope.row)"
+          >
+            Edit
+          </el-button>
+          <el-button
+            type="text"
+            size="small"
+            @click.native.prevent="deleteClick(scope.row)"
+          >
+            Delete
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -129,6 +151,9 @@ export default {
         this.list = response.data.items
         this.listLoading = false
       })
+    },
+    editClick(row) {
+      console.log(row)
     }
   }
 }
