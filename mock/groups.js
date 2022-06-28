@@ -7,7 +7,8 @@ const data = Mock.mock({
     'status|1': ['published', 'draft', 'deleted'],
     owner: 'name',
     created_at: '@datetime',
-    articles: '@integer(1, 5000)'
+    articles: '@integer(1, 5000)',
+    description: 'test description'
   }]
 })
 
