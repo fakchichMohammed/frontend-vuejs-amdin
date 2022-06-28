@@ -8,7 +8,6 @@
         <el-select
           v-model="form.value"
           style="display: block"
-          el-col="12"
           multiple
           col="12"
           filterable
@@ -112,7 +111,7 @@ export default {
       form: {
         title: '',
         desc: '',
-        value: '',
+        value: [],
         options: [
           {
             value: 'HTML',
@@ -152,8 +151,21 @@ export default {
         this.listLoading = false
       })
     },
+    deleteClick() {
+    },
     editClick(row) {
-      console.log(row)
+      this.form.title = row.title
+      this.form.desc = row.description
+      this.getArticles(row.id)
+    },
+    getArticles(groupId) {
+      // fetch articles of the group
+      console.log(groupId)
+      this.form.value = [
+        'Mon article sur la block chaine que je ne kiff pas trou mais woow que du bkabka',
+        'CSS',
+        'JavaScript'
+      ]
     }
   }
 }
