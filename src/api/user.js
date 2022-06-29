@@ -8,10 +8,10 @@ export function login(data) {
     data
   })
 }
-
+/*
 export function getInfo(token) {
   return request({
-    url: '/api/user/info',
+    url: 'http://178.33.234.128:8022/api/login/',
     method: 'get',
     params: { token }
   })
@@ -23,3 +23,4 @@ export function logout() {
     method: 'post'
   })
 }
+ */

@@ -36,10 +36,18 @@ const actions = {
       login({ username: username.trim(), password: password, client_id: '249135', client_secret: '3f10dee1f069af8f9ef6cea626e5774f053319c37d211f27425f5b20' }).then(response => {
         console.log('inside login then')
         const { data } = response
+
+        if (!data) {
+          return reject('Verification failed, please Login again.')
+        }
+
+        const { username, photo } = data
         console.log(data)
-        /* commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        resolve() */
+        commit('SET_TOKEN', data.tokens.id_token)
+        setToken(data.tokens.id_token, data.tokens.expires_in)
+        commit('SET_NAME', username)
+        commit('SET_AVATAR', photo)
+        resolve()
       }).catch(error => {
         reject(error)
       })
@@ -47,7 +55,7 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, state }) {
+  /* getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
         const { data } = response
@@ -56,28 +64,24 @@ const actions = {
           return reject('Verification failed, please Login again.')
         }
 
-        const { name, avatar } = data
+        const { username, photo } = data
 
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
+        commit('SET_NAME', username)
+        commit('SET_AVATAR', photo)
         resolve(data)
       }).catch(error => {
         reject(error)
       })
     })
-  },
+  }, */
 
   // user logout
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        removeToken() // must remove  token  first
-        resetRouter()
-        commit('RESET_STATE')
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      removeToken() // must remove  token  first
+      resetRouter()
+      commit('RESET_STATE')
+      resolve()
     })
   },
 
