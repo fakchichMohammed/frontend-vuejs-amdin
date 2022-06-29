@@ -1,51 +1,77 @@
 <template>
   <div class="login-container">
     <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
+      ref="RegisterForm"
+      :model="RegisterForm"
+      :rules="RegisterRules"
       class="login-form"
       auto-complete="on"
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">Login</h3>
+        <h3 class="title">Create Author Profile</h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="firstname">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
+          ref="firstname"
+          v-model="RegisterForm.firstname"
+          placeholder="First name"
+          name="firstname"
           type="text"
           tabindex="1"
           auto-complete="on"
         />
+        </el-form-item>
+
+        <el-form-item prop="lastname">
+          <span class="svg-container">
+          <svg-icon icon-class="user" />
+        </span>
+        <el-input
+          ref="lastname"
+          v-model="RegisterForm.lastname"
+          placeholder="Last name"
+          name="lastname"
+          type="text"
+          tabindex="1"
+          auto-complete="on"
+        />
+        </el-form-item>
+        <el-form-item prop="username">
+          <span class="svg-container">
+          <svg-icon icon-class="user" />
+        </span>
         <el-input
           ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
+          v-model="RegisterForm.username"
+          placeholder="User name"
           name="username"
           type="text"
           tabindex="1"
           auto-complete="on"
         />
         </el-form-item>
+    
+        <el-form-item prop="email">
+          <span class="svg-container">
+          <svg-icon icon-class="bi bi-envelope-fill" />
+        </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
+          ref="email"
+          v-model="RegisterForm.email"
+          placeholder="Email"
+          name="email"
           type="text"
           tabindex="1"
           auto-complete="on"
         />
       </el-form-item>
-
+       
+      
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
@@ -53,13 +79,13 @@
         <el-input
           :key="passwordType"
           ref="password"
-          v-model="loginForm.password"
+          v-model="RegisterForm.password"
           :type="passwordType"
           placeholder="Password"
           name="password"
           tabindex="2"
           auto-complete="on"
-          @keyup.enter.native="handleLogin"
+          @keyup.enter.native="handleRegister"
         />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
@@ -70,57 +96,50 @@
         :loading="loading"
         type="primary"
         style="width: 100%; margin-bottom: 30px"
-        @click.native.prevent="handleLogin"
-      >Login</el-button>
+        @click.native.prevent="handleRegister"
+      >Register</el-button>
     </el-form>
   </div>
 </template>
 
-<!-- <template>
-  <div id="app">
-    <form @submit.prevent="login">
-      <div>
-        <label for="username">username</label>
-        <input name="username" v-model="username" placeholder="username">
-      </div>
-      <div>
-        <label for="password">password</label>
-        <input name="password" v-model="password" placeholder="password" type="password">
-      </div>
-      <div>
-        <label for="firstName">first name</label>
-        <input name="firstName" v-model="firstName" placeholder="first name">
-      </div>
-      <div>
-        <label for="lastName">last name</label>
-        <input name="lastName" v-model="lastName" placeholder="last name">
-      </div>
-      <div>
-        <label for="age">age</label>
-        <input name="age" v-model="age" placeholder="age" type="number">
-      </div>
-      <div>
-        <label for="address">address</label>
-        <input name="address" v-model="address" placeholder="address">
-      </div>
-      <input type="submit" value="register">
-    </form>
-  </div>
-</template> -->
+
 
 <script>
 import { validUsername } from '@/utils/validate'
 
 export default {
-  name: 'Login',
+  name: 'Register',
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+
+    const validateFirstname = (rule, value, callback) => {
+      if (value.length < 3  ) {
+        callback(new Error(' Your first name can not be less than 3 digits'))
       } else {
         callback()
       }
     }
+    const validateLastname = (rule, value, callback) => {
+      if (value.length < 3) {
+        callback(new Error(' Your last name can not be less than 3 digits'))
+      } else {
+        callback()
+      }
+    }
+    const validateUsername = (rule, value, callback) => {
+      if (value.length < 3) {
+        callback(new Error(' Your user name can not be less than 3 digits'))
+      } else {
+        callback()
+      }
+    }
+    const validateEmail = (rule, value, callback) => {
+      if (value.length < 6) {
+        callback(new Error(' please enter a correct email adress'))
+      } else {
+        callback()
+      }
+    }
+
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
         callback(new Error('The password can not be less than 6 digits'))
@@ -128,14 +147,24 @@ export default {
         callback()
       }
     }
+ 
+
     return {
-      loginForm: {
-        username: 'admin',
-        password: '111111'
+      RegisterForm: {
+        firstname: '',
+        lastname: '',
+        username: '',
+        email: '',
+        password: ''
+        
       },
-      loginRules: {
+      RegisterRules: {
+        firstname: [{ required: true, trigger: 'blur', validator: validateFirstname }],
+        lastname: [{ required: true, trigger: 'blur', validator: validateLastname }],
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        email: [{ required: true, trigger: 'blur', validator: validateEmail }],
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        
       },
       loading: false,
       passwordType: 'password',
@@ -161,13 +190,13 @@ export default {
         this.$refs.password.focus()
       })
     },
-    handleLogin() {
+    handleRegister() {
       this.$router.push({ path: this.redirect || '/' })
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.RegisterForm.validate((valid) => {
         if (valid) {
           this.loading = true
           this.$store
-            .dispatch('user/login', this.loginForm)
+            .dispatch('user/', this.RegisterForm)
             .then(() => {
               this.$router.push({ path: this.redirect || '/' })
               this.loading = false
@@ -176,13 +205,19 @@ export default {
               this.loading = false
             })
         } else {
-          console.log('error submit!!')
+          console.log('Registration error!!')
           return false
         }
       })
     }
   }
 }
+
+
+
+
+
+
 </script>
 
 <style lang="scss">
