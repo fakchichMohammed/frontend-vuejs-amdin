@@ -133,7 +133,7 @@ export const constantRoutes = [
         component: () => import('@/views/form/index'),
         meta: { title: 'Form', icon: 'form' }
       }
-      */
+
     ]
   },
   // 404 page must be placed at the end !!!
