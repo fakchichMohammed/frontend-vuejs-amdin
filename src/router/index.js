@@ -100,7 +100,7 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/nested',
+    path: '/requests',
     component: Layout,
     redirect: '/requests/inbox',
     name: 'Requests',
