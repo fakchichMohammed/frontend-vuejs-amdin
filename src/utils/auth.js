@@ -1,15 +1,19 @@
-import Cookies from 'js-cookie'
 
-const TokenKey = 'blogger-admin-dashboard_token'
+const TokenKey = 'id_token'
+const ExpireIn = 'expires_in'
 
 export function getToken() {
-  return Cookies.get(TokenKey)
+  return window.localStorage.getItem(TokenKey)
 }
 
-export function setToken(token) {
-  return Cookies.set(TokenKey, token)
+export function setToken(token, expiresIn) {
+  window.localStorage.setItem(TokenKey, token)
+  window.localStorage.setItem(ExpireIn, expiresIn)
+  return
 }
 
 export function removeToken() {
-  return Cookies.remove(TokenKey)
+  window.localStorage.removeItem(TokenKey)
+  window.localStorage.removeItem(ExpireIn)
+  return
 }
