@@ -22,5 +22,13 @@ export function logout() {
     url: '/api/user/logout',
     method: 'post'
   })
+}*/
+
+export function register(data) {
+  return request({
+    url: 'http://178.33.234.128:8022/api/register/',
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    data
+  })
 }
- */

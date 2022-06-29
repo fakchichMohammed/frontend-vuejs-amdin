@@ -106,6 +106,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
+import { register } from '@/api/user'
 
 export default {
   name: 'Register',
@@ -180,7 +181,7 @@ export default {
     }
   },
   methods: {
-    showPwd() {
+    showPwd(){
       if (this.passwordType === 'password') {
         this.passwordType = ''
       } else {
@@ -191,14 +192,13 @@ export default {
       })
     },
     handleRegister() {
-      this.$router.push({ path: this.redirect || '/' })
       this.$refs.RegisterForm.validate((valid) => {
         if (valid) {
           this.loading = true
           this.$store
-            .dispatch('user/', this.RegisterForm)
+            .dispatch('user/register', this.RegisterForm)
             .then(() => {
-              this.$router.push({ path: this.redirect || '/' })
+              this.$router.push({ path: this.redirect || '/login' })
               this.loading = false
             })
             .catch(() => {

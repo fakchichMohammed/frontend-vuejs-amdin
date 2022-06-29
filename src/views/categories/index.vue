@@ -39,11 +39,6 @@
           </el-link>
         </template>
       </el-table-column>
-      <el-table-column label="Owner" width="190" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.owner }}</span>
-        </template>
-      </el-table-column>
       <el-table-column
         align="center"
         prop="created_at"
@@ -181,7 +176,7 @@ export default {
     fetchData() {
       this.listLoading = true
       getList().then((response) => {
-        this.list = response.data.items
+        this.list = response.data
         this.listLoading = false
       })
     },
