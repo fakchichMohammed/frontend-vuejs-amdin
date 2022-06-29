@@ -50,6 +50,12 @@
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
       >Login</el-button>
+      <el-button
+        :loading="loading"
+        type="info"
+        style="width: 100%; margin-bottom: 30px; margin-left: 0px;"
+        @click.native.prevent="handleRegister"
+      >Or Register</el-button>
     </el-form>
   </div>
 </template>
@@ -124,6 +130,9 @@ export default {
           return false
         }
       })
+    },
+    handleRegister() {
+      this.$router.push({ path: '/register' })
     }
   }
 }

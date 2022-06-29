@@ -25,10 +25,10 @@
           tabindex="1"
           auto-complete="on"
         />
-        </el-form-item>
+      </el-form-item>
 
-        <el-form-item prop="lastname">
-          <span class="svg-container">
+      <el-form-item prop="lastname">
+        <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
@@ -40,9 +40,9 @@
           tabindex="1"
           auto-complete="on"
         />
-        </el-form-item>
-        <el-form-item prop="username">
-          <span class="svg-container">
+      </el-form-item>
+      <el-form-item prop="username">
+        <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
@@ -54,10 +54,10 @@
           tabindex="1"
           auto-complete="on"
         />
-        </el-form-item>
-    
-        <el-form-item prop="email">
-          <span class="svg-container">
+      </el-form-item>
+
+      <el-form-item prop="email">
+        <span class="svg-container">
           <svg-icon icon-class="bi bi-envelope-fill" />
         </span>
         <el-input
@@ -70,8 +70,7 @@
           auto-complete="on"
         />
       </el-form-item>
-       
-      
+
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
@@ -98,11 +97,15 @@
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleRegister"
       >Register</el-button>
+      <el-button
+        :loading="loading"
+        type="info"
+        style="width: 100%; margin-bottom: 30px; margin-left: 0px;"
+        @click.native.prevent="handleLogin"
+      >Or Login</el-button>
     </el-form>
   </div>
 </template>
-
-
 
 <script>
 import { validUsername } from '@/utils/validate'
@@ -111,9 +114,8 @@ import { register } from '@/api/user'
 export default {
   name: 'Register',
   data() {
-
     const validateFirstname = (rule, value, callback) => {
-      if (value.length < 3  ) {
+      if (value.length < 3) {
         callback(new Error(' Your first name can not be less than 3 digits'))
       } else {
         callback()
@@ -148,7 +150,6 @@ export default {
         callback()
       }
     }
- 
 
     return {
       RegisterForm: {
@@ -157,15 +158,15 @@ export default {
         username: '',
         email: '',
         password: ''
-        
+
       },
       RegisterRules: {
         firstname: [{ required: true, trigger: 'blur', validator: validateFirstname }],
         lastname: [{ required: true, trigger: 'blur', validator: validateLastname }],
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         email: [{ required: true, trigger: 'blur', validator: validateEmail }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
-        
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+
       },
       loading: false,
       passwordType: 'password',
@@ -181,7 +182,7 @@ export default {
     }
   },
   methods: {
-    showPwd(){
+    showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
       } else {
@@ -198,7 +199,7 @@ export default {
           this.$store
             .dispatch('user/register', this.RegisterForm)
             .then(() => {
-              this.$router.push({ path: this.redirect || '/login' })
+              this.$router.push({ path: this.redirect || '/' })
               this.loading = false
             })
             .catch(() => {
@@ -209,14 +210,12 @@ export default {
           return false
         }
       })
+    },
+    handleLogin() {
+      this.$router.push({ path: '/login' })
     }
   }
 }
-
-
-
-
-
 
 </script>
 
