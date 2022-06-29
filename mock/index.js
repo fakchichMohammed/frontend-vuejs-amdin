@@ -5,12 +5,14 @@ const user = require('./user')
 const articles = require('./articles')
 const groups = require('./groups')
 const categories = require('./categories')
+const demands = require('./demands')
 
 const mocks = [
   ...user,
   ...articles,
   ...groups,
-  ...categories
+  ...categories,
+  ...demands
 ]
 
 // for front mock
