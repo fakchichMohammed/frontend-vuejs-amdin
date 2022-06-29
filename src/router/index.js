@@ -16,6 +16,11 @@ export const constantRoutes = [
     component: () => import('@/views/author/register/index'),
     hidden: true
   },
+  {
+    path: '/article/index',
+    component: () => import('@/views/author/home/index'),
+    hidden: true
+  },
 
   {
     path: '/404',
@@ -69,7 +74,6 @@ export const constantRoutes = [
       }
     ]
   },
-  
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
