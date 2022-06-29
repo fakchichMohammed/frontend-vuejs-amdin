@@ -1,4 +1,4 @@
-# vue-admin-template
+# Blogger dashboard 
 
 
 > A minimal vue admin template with Element UI & axios & iconfont & permission control & lint
