@@ -92,7 +92,7 @@
   </div>
 </template>
 <script>
-import { getList, add } from '@/api/categories'
+import { getList, add, edit, deleteCategory } from '@/api/categories'
 
 export default {
   name: 'Category',
@@ -185,7 +185,7 @@ export default {
           try {
             add(this.form)
             this.loading = false
-            this.$message('Category!')
+            this.$message('Category created successfully!')
           } catch (error) {
             this.loading = false
           }
@@ -229,7 +229,15 @@ export default {
       ]
     },
     confirmDelete(row) {
-      console.log('clicked on delete', row)
+      // delete category
+      this.loading = true
+      try {
+        deleteCategory(this.form)
+        this.loading = false
+        this.$message('Category deleted successfully!')
+      } catch (error) {
+        this.loading = false
+      }
       this.visible = false
       this.$emit('onConfirm')
     },
@@ -238,8 +246,15 @@ export default {
       this.$emit('onCancel')
     },
     onEdit(row) {
-      // update group
-      console.log('Edit group', row)
+      // update category
+      this.loading = true
+      try {
+        edit(this.form)
+        this.loading = false
+        this.$message('Category updated successfully!')
+      } catch (error) {
+        this.loading = false
+      }
       this.dialogVisible = false
     },
     openDetails(row) {
