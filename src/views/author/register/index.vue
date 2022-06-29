@@ -181,17 +181,6 @@ export default {
     }
   },
   methods: {
-    // data: register() {
-    //   this.$http.post('', {
-    //     first_name: this.RegisterForm.firstname,
-    //     last_name: this.RegisterForm.lastname,
-    //     username: this.RegisterForm.username,
-    //     email: this.RegisterForm.email,
-    //     password: this.RegisterForm.password
-      
-    //   })
-    // }
-
     showPwd(){
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -203,14 +192,13 @@ export default {
       })
     },
     handleRegister() {
-      this.$router.push({ path: this.redirect || '/' })
       this.$refs.RegisterForm.validate((valid) => {
         if (valid) {
           this.loading = true
           this.$store
-            .dispatch('user/', this.RegisterForm)
+            .dispatch('user/register', this.RegisterForm)
             .then(() => {
-              this.$router.push({ path: this.redirect || '/' })
+              this.$router.push({ path: this.redirect || '/login' })
               this.loading = false
             })
             .catch(() => {
