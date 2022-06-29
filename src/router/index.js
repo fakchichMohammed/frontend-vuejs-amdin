@@ -60,6 +60,18 @@ export const constantRoutes = [
   },
 
   {
+    path: '/form',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Form',
+        component: () => import('@/views/form/index'),
+        meta: { title: 'Form', icon: 'form' }
+      }
+    ]
+  },
+  {
     path: '/articles',
     component: Layout,
     redirect: '/articles',
@@ -67,12 +79,19 @@ export const constantRoutes = [
     meta: { title: 'Articles', icon: 'el-icon-s-help' },
     children: [
       {
+        path: 'index',
+        name: 'Articles',
+        component: () => import('@/views/author/articles/index'),
+        meta: { title: 'Articles', icon: 'form' }
+      },
+      {
         path: 'list',
         name: 'List',
         component: () => import('@/views/list/index'),
         meta: { title: 'List', icon: 'list' }
       }
-      /*  {
+      /*
+      {
         path: 'tree',
         name: 'Tree',
         component: () => import('@/views/tree/index'),
@@ -114,6 +133,7 @@ export const constantRoutes = [
         component: () => import('@/views/form/index'),
         meta: { title: 'Form', icon: 'form' }
       }
+      */
     ]
   },
   // 404 page must be placed at the end !!!
