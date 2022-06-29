@@ -16,7 +16,6 @@ export const constantRoutes = [
     component: () => import('@/views/author/register/index'),
     hidden: true
   },
-
   {
     path: '/404',
     component: () => import('@/views/404'),
@@ -114,19 +113,6 @@ export const constantRoutes = [
         name: 'Reviewed',
         meta: { title: 'reviewed' }
       }
-    ]
-  },
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-
     ]
   },
   // 404 page must be placed at the end !!!
