@@ -28,6 +28,9 @@
         </el-form-item>
 
         <el-form-item prop="lastname">
+          <span class="svg-container">
+          <svg-icon icon-class="user" />
+        </span>
         <el-input
           ref="lastname"
           v-model="RegisterForm.lastname"
@@ -39,6 +42,9 @@
         />
         </el-form-item>
         <el-form-item prop="username">
+          <span class="svg-container">
+          <svg-icon icon-class="user" />
+        </span>
         <el-input
           ref="username"
           v-model="RegisterForm.username"
@@ -51,6 +57,9 @@
         </el-form-item>
     
         <el-form-item prop="email">
+          <span class="svg-container">
+          <svg-icon icon-class="bi bi-envelope-fill" />
+        </span>
         <el-input
           ref="email"
           v-model="RegisterForm.email"
