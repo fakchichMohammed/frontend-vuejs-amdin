@@ -65,7 +65,7 @@ const actions = {
 
   // register user
   register({ commit }, userInfo) {
-    const { firstname, lastname,username, email, password } = userInfo
+    const { firstname, lastname, username, email, password } = userInfo
     console.log('user store: ', userInfo)
     return new Promise((resolve, reject) => {
       register({ first_name: firstname.trim(), last_name: lastname.trim(), username: username.trim(), email: email.trim(), password: password.trim()}).then(response => {
