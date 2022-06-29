@@ -17,12 +17,6 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/article/index',
-    component: () => import('@/views/author/home/index'),
-    hidden: true
-  },
-
-  {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
