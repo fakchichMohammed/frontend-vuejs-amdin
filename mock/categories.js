@@ -3,17 +3,17 @@ const Mock = require('mockjs')
 const data = Mock.mock({
   'items|30': [{
     id: '@id',
-    title: '@sentence(10, 20)',
+    title: '@sentence(1, 5)',
     'status|1': ['published', 'draft', 'deleted'],
-    author: 'name',
-    display_time: '@datetime',
-    pageviews: '@integer(300, 5000)'
+    owner: '@name',
+    created_at: '@datetime',
+    description: 'test category description'
   }]
 })
 
 module.exports = [
   {
-    url: '/api/articles',
+    url: '/api/categories',
     type: 'get',
     response: config => {
       const items = data.items

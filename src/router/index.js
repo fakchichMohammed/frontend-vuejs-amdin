@@ -34,6 +34,30 @@ export const constantRoutes = [
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
+  {
+    path: '/groups',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Groups',
+        component: () => import('@/views/groups/index'),
+        meta: { title: 'Groups', icon: 'form' }
+      }
+    ]
+  },
+  {
+    path: '/categories',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Categories',
+        component: () => import('@/views/categories/index'),
+        meta: { title: 'Categories', icon: 'form' }
+      }
+    ]
+  },
 
   {
     path: '/form',
@@ -50,6 +74,9 @@ export const constantRoutes = [
   {
     path: '/articles',
     component: Layout,
+    redirect: '/articles',
+    name: 'Articles',
+    meta: { title: 'Articles', icon: 'el-icon-s-help' },
     children: [
       {
         path: 'index',
@@ -69,11 +96,46 @@ export const constantRoutes = [
         name: 'Tree',
         component: () => import('@/views/tree/index'),
         meta: { title: 'Tree', icon: 'tree' }
+      } */
+    ]
+  },
+  {
+    path: '/nested',
+    component: Layout,
+    redirect: '/requests/inbox',
+    name: 'Requests',
+    meta: {
+      title: 'Requests',
+      icon: 'nested'
+    },
+    children: [
+      {
+        path: 'inbox',
+        component: () => import('@/views/publisher/requests/inbox/index'),
+        name: 'Inbox',
+        meta: { title: 'inbox' }
+      },
+      {
+        path: 'reviewed',
+        component: () => import('@/views/publisher/requests/reviewed/index'),
+        name: 'Reviewed',
+        meta: { title: 'reviewed' }
+      }
+    ]
+  },
+  {
+    path: '/form',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Form',
+        component: () => import('@/views/form/index'),
+        meta: { title: 'Form', icon: 'form' }
       }
       */
     ]
   },
-
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

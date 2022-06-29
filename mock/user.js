@@ -27,7 +27,7 @@ const users = {
 module.exports = [
   // user login
   {
-    url: '/blogger-admin-dashboard/user/login',
+    url: '/api/user/login',
     type: 'post',
     response: (config) => {
       const { username } = config.body
@@ -50,7 +50,7 @@ module.exports = [
 
   // get user info
   {
-    url: '/blogger-admin-dashboard/user/info.*',
+    url: '/api/user/info.*',
     type: 'get',
     response: (config) => {
       const { token } = config.query
@@ -73,7 +73,7 @@ module.exports = [
 
   // user logout
   {
-    url: '/blogger-admin-dashboard/user/logout',
+    url: '/api/user/logout',
     type: 'post',
     response: (_) => {
       return {
