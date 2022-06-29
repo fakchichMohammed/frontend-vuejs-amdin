@@ -72,9 +72,9 @@ export const constantRoutes = [
         meta: { title: 'My articles', icon: 'form' }
       },
       {
-        path: 'add_article',
+        path: 'add-article',
         name: 'add_article',
-        component: () => import('@/views/author/articles/add_form'),
+        component: () => import('@/views/author/articles/addForm'),
         meta: { title: 'Add article', icon: 'form' }
       },
       {
