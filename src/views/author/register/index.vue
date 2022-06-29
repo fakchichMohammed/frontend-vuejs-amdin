@@ -106,6 +106,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
+import { register } from '@/api/user'
 
 export default {
   name: 'Register',
@@ -180,7 +181,18 @@ export default {
     }
   },
   methods: {
-    showPwd() {
+    // data: register() {
+    //   this.$http.post('', {
+    //     first_name: this.RegisterForm.firstname,
+    //     last_name: this.RegisterForm.lastname,
+    //     username: this.RegisterForm.username,
+    //     email: this.RegisterForm.email,
+    //     password: this.RegisterForm.password
+      
+    //   })
+    // }
+
+    showPwd(){
       if (this.passwordType === 'password') {
         this.passwordType = ''
       } else {
