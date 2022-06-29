@@ -2,8 +2,9 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/api/user/login',
+    url: 'http://178.33.234.128:8022/api/login/',
     method: 'post',
+    headers: { 'Content-Type': 'application/json' },
     data
   })
 }
