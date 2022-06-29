@@ -7,6 +7,7 @@
       border
       fit
       highlight-current-row
+      @row-click="onMessageClick"
     >
       <el-table-column align="center" label="ID" width="95">
         <template slot-scope="scope">
@@ -77,6 +78,9 @@ export default {
         return input.substring(0, 300) + '...'
       }
       return input
+    },
+    onMessageClick(row) {
+      console.log(row.id)
     }
   }
 }
