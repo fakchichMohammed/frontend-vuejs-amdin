@@ -25,10 +25,11 @@ export function create(data) {
 
 // handle add group
 export function add(groupInfo) {
-  const { title, description } = groupInfo
+  const { title, description, articles } = groupInfo
+  console.log('articles', articles);
   const slug = slugify(title)
   return new Promise((resolve, reject) => {
-    create({ title: title.trim(), slug: slug, description: description.trim() })
+    create({ title: title.trim(), slug: slug, description: description.trim(), articles: articles })
       .then((response) => {
         const { data } = response
 

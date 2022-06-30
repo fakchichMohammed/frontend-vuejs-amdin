@@ -272,6 +272,8 @@ export default {
       getList().then((response) => {
         this.list = response.data
         this.listLoading = false
+      }).catch(() => {
+        this.loading = false
       })
     },
     deleteClick() {},
@@ -283,8 +285,8 @@ export default {
       this.dialogVisible = true
       this.canEdit = false
     },
-    getArticles(groupId) {
-      if (!groupId) {
+    getArticles(row) {
+      if (!row) {
         this.listLoading = true
         getArticlesList().then((response) => {
           response.data.map(({ title, slug, id }) => {
