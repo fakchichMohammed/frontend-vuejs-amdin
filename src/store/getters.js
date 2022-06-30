@@ -7,7 +7,7 @@ const getters = {
   first_name: state => state.user.first_name,
   last_name: state => state.user.last_name,
   email: state => state.user.email,
-  // user_type: state => state.user.user_type
+  userType: state => state.user.user_type,
   userId: state => state.user.userId
 }
 export default getters
