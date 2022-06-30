@@ -192,6 +192,7 @@ export default {
       formEdit: {
         title: '',
         desc: '',
+        slug: '',
         value: [],
         options: []
       },
@@ -232,7 +233,9 @@ export default {
     editClick(row) {
       this.formEdit.title = row.title
       this.formEdit.desc = row.description
-      this.getArticles(row.id)
+      this.formEdit.slug = row.slug
+      console.log(row)
+      // this.getArticles(row.id)
       this.dialogVisible = true
       this.canEdit = false
     },
@@ -254,9 +257,9 @@ export default {
       this.visible = false
       this.$emit('onCancel')
     },
-    onEdit(row) {
+    onEdit() {
       // update group
-      console.log('Edit group', row)
+      console.log('Edit group', this.formEdit.slug)
       this.dialogVisible = false
     },
     openDetails(row) {

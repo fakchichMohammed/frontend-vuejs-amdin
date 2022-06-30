@@ -7,25 +7,21 @@
       border
       fit
       highlight-current-row
+      @row-click="onMessageClick"
     >
       <el-table-column align="center" label="ID" width="95">
         <template slot-scope="scope">
           {{ scope.$index }}
         </template>
       </el-table-column>
-      <el-table-column label="Title">
+      <el-table-column label="Message">
         <template slot-scope="scope">
-          {{ scope.row.title }}
+          {{ truncate(scope.row.message) }}
         </template>
       </el-table-column>
-      <el-table-column label="Author" width="110" align="center">
+      <el-table-column label="From" width="110" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.author }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="Pageviews" width="110" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.pageviews }}
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" label="Status" width="110" align="center">
@@ -33,10 +29,10 @@
           <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="Display_time" width="200">
+      <el-table-column align="center" prop="received_at" label="Received_at" width="200">
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.display_time }}</span>
+          <span>{{ scope.row.received_at }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -44,7 +40,7 @@
 </template>
 
 <script>
-import { getList } from '@/api/articles'
+import { getList } from '@/api/demands'
 
 export default {
   filters: {
@@ -60,7 +56,8 @@ export default {
   data() {
     return {
       list: null,
-      listLoading: true
+      listLoading: true,
+      hintRow: ''
     }
   },
   created() {
@@ -72,7 +69,18 @@ export default {
       getList().then(response => {
         this.list = response.data.items
         this.listLoading = false
+        this.truncate(this.list.message)
       })
+      // this.hintRow = this.list.message.substring(0, 60)
+    },
+    truncate(input) {
+      if (String(input).length > 300) {
+        return input.substring(0, 300) + '...'
+      }
+      return input
+    },
+    onMessageClick(row) {
+      console.log(row.id)
     }
   }
 }
