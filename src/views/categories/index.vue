@@ -181,7 +181,9 @@ export default {
           this.loading = true
           try {
             add(this.form)
-            this.fetchData()
+            /* add(this.form).then(() => {
+              this.fetchData()
+            }) */
             this.loading = false
             this.$message('Category created successfully!')
           } catch (error) {
@@ -253,6 +255,7 @@ export default {
         edit(this.formEdit, this.formEdit.slug)
         this.loading = false
         this.$message('Category updated successfully!')
+        this.fetchData()
       } catch (error) {
         this.loading = false
       }
