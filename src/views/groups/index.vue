@@ -8,7 +8,7 @@
       <el-form-item label="List of articles" prop="articles">
         <el-select
           ref="articles"
-          v-model="form.value"
+          v-model="form.articles"
           name="articles"
           style="display: block"
           multiple
@@ -66,12 +66,12 @@
       </el-table-column>
       <el-table-column label="Owner" width="190" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.owner }}</span>
+          <span>{{ scope.row.author }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Articles" width="90" align="center">
         <template slot-scope="scope">
-          {{ scope.row.articles.length }}
+          {{ scope.row.articles }}
         </template>
       </el-table-column>
       <el-table-column
@@ -123,7 +123,7 @@
         <el-form-item label="List of articles" prop="articles">
           <el-select
             ref="articles"
-            v-model="formEdit.value"
+            v-model="formEdit.articles"
             style="display: block"
             multiple
             col="12"
@@ -134,9 +134,9 @@
           >
             <el-option
               v-for="item in formEdit.options"
-              :key="item.value"
+              :key="item.articles"
               :label="item.label"
-              :value="item.value"
+              :value="item.articles"
             />
           </el-select>
         </el-form-item>
@@ -163,6 +163,7 @@
 </template>
 <script>
 import { getList, add, edit, deleteGroup } from '@/api/groups'
+import { getArticlesList } from '@/api/articles'
 
 export default {
   filters: {
@@ -183,11 +184,18 @@ export default {
         callback()
       }
     }
+    const validateArticles = (rule, value, callback) => {
+      if (value.length < 1) {
+        callback(new Error(' List articles can not be less than 1'))
+      } else {
+        callback()
+      }
+    }
     return {
       form: {
         title: '',
         description: '',
-        value: [],
+        articles: [],
         options: [
           {
             value: 'HTML',
@@ -204,9 +212,12 @@ export default {
           }
         ]
       },
-      CategoryRules: {
+      GroupRules: {
         title: [
           { required: true, trigger: 'blur', validator: validateTitle }
+        ],
+        articles: [
+          { required: false, trigger: 'blur', validator: validateArticles }
         ]
         /* description: [
           { required: false, trigger: 'blur', validator: validateDescription }
@@ -216,7 +227,7 @@ export default {
         title: '',
         description: '',
         slug: '',
-        value: [],
+        articles: [],
         options: []
       },
       dialogVisible: false,
@@ -238,6 +249,7 @@ export default {
   },
   created() {
     this.fetchData()
+    this.getArticles()
   },
   methods: {
     onSubmit() {
@@ -263,7 +275,7 @@ export default {
     onCancel() {
       this.form.title = ''
       this.form.description = ''
-      this.form.value = []
+      this.form.articles = []
       this.$message({
         message: 'cancel!',
         type: 'warning'
@@ -286,8 +298,27 @@ export default {
       this.canEdit = false
     },
     getArticles(groupId) {
+      if (!groupId) {
+        console.log('get articles')
+        this.listLoading = true
+        getArticlesList().then((response) => {
+          /* response.data.forEach(function(arrayItem) {
+            for (const [key, value] of Object.entries(arrayItem)) {
+              console.log(`${key}: ${value}`)
+            }
+          }) */
+          response.data.map(({ title, slug, id }) => {
+            console.log(`${title} with quantity ${slug} with price ${id}`)
+          })
+
+          /* const { title, slug, id } = response.data
+          // this.form.options = response.data
+          console.log(response.data) */
+          this.listLoading = false
+        })()
+      }
       // fetch articles of the group
-      this.formEdit.value = [
+      this.formEdit.articles = [
         'Mon article sur la block chaine que je ne kiff pas trou mais woow que du bkabka',
         'CSS',
         'JavaScript'
