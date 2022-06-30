@@ -181,7 +181,9 @@ export default {
           this.loading = true
           try {
             add(this.form)
-            this.fetchData()
+            /* add(this.form).then(() => {
+              this.fetchData()
+            }) */
             this.loading = false
             this.$message('Category created successfully!')
           } catch (error) {
