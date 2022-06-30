@@ -24,7 +24,9 @@
       </el-table-column>
       <el-table-column label="Categories" width="190" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.categories }}</span>
+          <ul>
+            <li v-for="category in scope.row.categories" :key="category.id">{{ category.title }}</li>
+          </ul>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="Operations" width="120">
