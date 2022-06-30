@@ -1,5 +1,5 @@
 import { login, logout, getInfo, register } from '@/api/user'
-import { getToken, setToken, removeToken, getUserPhoto, setUsername, setUserPhoto, getUsername, setFirstname, getFirstname, setLastName, getLastName, setEmail, getEmail, setUserId } from '@/utils/auth'
+import { getToken, setToken, getUserId, setUserId, removeToken, getUserPhoto, setUsername, setUserPhoto, getUsername, setFirstname, getFirstname, setLastName, getLastName, setEmail, getEmail } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
@@ -9,7 +9,8 @@ const getDefaultState = () => {
     photo: getUserPhoto(),
     first_name: getFirstname(),
     last_name: getLastName(),
-    email: getEmail()
+    email: getEmail(),
+    userId: getUserId()
   }
 }
 
@@ -55,9 +56,7 @@ const actions = {
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
-
         const { username, photo, first_name, last_name, email } = data
-        console.log(data)
 
         // save user token in local storage
         commit('SET_TOKEN', data.tokens.id_token)
@@ -74,15 +73,15 @@ const actions = {
         // save user first name
         commit('SET_FIRST_NAME', first_name)
         setFirstname(first_name)
-        console.log(first_name, data)
+
         // save user last name
         commit('SET_LAST_NAME', last_name)
         setLastName(last_name)
-        console.log(last_name, data)
+
         // save user email
         commit('SET_EMAIL', email)
         setEmail(email)
-        console.log(email, data)
+
         // save user photo in cookies
         commit('SET_AVATAR', photo)
         setUserPhoto(photo)
