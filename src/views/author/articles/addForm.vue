@@ -79,7 +79,6 @@ export default {
       this.listLoading = true
       getList().then((response) => {
         this.categories = response.data
-        console.log(response.data)
         this.listLoading = false
       })
     },
@@ -93,8 +92,11 @@ export default {
             categoriesToSubmit.push(parseInt(category))
           }
           try {
+            if (!store.state.user.userId) {
+              throw new Error('User id not stored')
+            }
             createArticle({
-              author: store.userId,
+              author: store.state.user.userId,
               title: this.form.title,
               slug: this.form.slug,
               content: this.form.content,
