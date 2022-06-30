@@ -1,10 +1,12 @@
 import request from '@/utils/request'
 import { slugify } from '@/utils/slugfiy'
 
+const apiUrl = 'http://178.33.234.128:8022/api/category/'
+
 // fetch list category
 export function getList(params) {
   return request({
-    url: 'http://178.33.234.128:8022/api/category/',
+    url: apiUrl,
     method: 'get',
     headers: { 'Content-Type': 'application/json' },
     params
@@ -12,12 +14,12 @@ export function getList(params) {
 }
 
 // create category
-export function create(params) {
+export function create(data) {
   return request({
-    url: 'http://178.33.234.128:8022/api/category/',
+    url: apiUrl,
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
-    params
+    data
   })
 }
 
@@ -26,31 +28,26 @@ export function add(categoryInfo) {
   const { title, description } = categoryInfo
   const slug = slugify(title)
   return new Promise((resolve, reject) => {
-    create({ title: title.trim(), slug: slug, description: description.trim() }).then(response => {
-      console.log('inside category then')
-      const { data } = response
+    create({ title: title.trim(), slug: slug, description: description.trim() })
+      .then((response) => {
+        const { data } = response
 
-      if (!data) {
-        return reject('Creation failed, please try again.')
-      }
-
-      // const { username, firstname } = data
-      console.log(data)
-      /* commit('SET_TOKEN', data.tokens.id_token)
-      setToken(data.tokens.id_token, data.tokens.expires_in)
-      commit('SET_NAME', username)
-      commit('SET_AVATAR', photo) */
-      // resolve()
-    }).catch(error => {
-      reject(error)
-    })
+        if (!data) {
+          return reject('Creation failed, please try again.')
+        }
+        // const { username, firstname } = data
+        resolve()
+      })
+      .catch((error) => {
+        reject(error)
+      })
   })
 }
 
 // remove category
 export function remove(params) {
   return request({
-    url: 'http://178.33.234.128:8022/api/category/',
+    url: apiUrl,
     method: 'put',
     headers: { 'Content-Type': 'application/json' },
     params
@@ -61,58 +58,65 @@ export function remove(params) {
 export function deleteCategory(categoryInfo) {
   const { title, description } = categoryInfo
   return new Promise((resolve, reject) => {
-    remove({ title: title.trim(), description: description.trim() }).then(response => {
-      console.log('inside category then')
-      const { data } = response
+    remove({ title: title.trim(), description: description.trim() })
+      .then((response) => {
+        console.log('inside category then')
+        const { data } = response
 
-      if (!data) {
-        return reject('Delete failed, please try again.')
-      }
+        if (!data) {
+          return reject('Delete failed, please try again.')
+        }
 
-      // const { username, firstname } = data
-      console.log(data)
-      /* commit('SET_TOKEN', data.tokens.id_token)
+        // const { username, firstname } = data
+        console.log(data)
+        /* commit('SET_TOKEN', data.tokens.id_token)
       setToken(data.tokens.id_token, data.tokens.expires_in)
       commit('SET_NAME', username)
       commit('SET_AVATAR', photo) */
-      // resolve()
-    }).catch(error => {
-      reject(error)
-    })
+        // resolve()
+      })
+      .catch((error) => {
+        reject(error)
+      })
   })
 }
 
 // edit category
-export function update(params) {
+export function update(data, category_slug) {
   return request({
-    url: 'http://178.33.234.128:8022/api/category/',
+    url: apiUrl + category_slug,
     method: 'put',
     headers: { 'Content-Type': 'application/json' },
-    params
+    data,
   })
 }
 
 // handle edit category
-export function edit(categoryInfo) {
+export function edit(categoryInfo, categorySlug) {
+  console.log('inside category edit then', categorySlug)
+  console.log(categoryInfo)
   const { title, description } = categoryInfo
+  const slug = slugify(title)
   return new Promise((resolve, reject) => {
-    update({ title: title.trim(), description: description.trim() }).then(response => {
-      console.log('inside category then')
-      const { data } = response
+    update({ title: title.trim(), slug: slug, description: description.trim() }, categorySlug)
+      .then((response) => {
+        console.log('inside category then')
+        const { data } = response
 
-      if (!data) {
-        return reject('Edit failed, please try again.')
-      }
+        if (!data) {
+          return reject('Edit failed, please try again.')
+        }
 
-      // const { username, firstname } = data
-      console.log(data)
-      /* commit('SET_TOKEN', data.tokens.id_token)
+        // const { username, firstname } = data
+        console.log(data)
+        /* commit('SET_TOKEN', data.tokens.id_token)
       setToken(data.tokens.id_token, data.tokens.expires_in)
       commit('SET_NAME', username)
       commit('SET_AVATAR', photo) */
-      // resolve()
-    }).catch(error => {
-      reject(error)
-    })
+        // resolve()
+      })
+      .catch((error) => {
+        reject(error)
+      })
   })
 }
