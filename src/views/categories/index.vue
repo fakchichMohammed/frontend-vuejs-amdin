@@ -1,9 +1,6 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" :rules="CategoryRules" label-width="120px">
-      <div class="title-container">
-        <h2 class="title">Create Category : </h2>
-      </div>
       <el-form-item label="Category title" prop="title">
         <el-input
           ref="title"
@@ -74,12 +71,12 @@
     </el-table>
     <!-- dialog edit form -->
     <el-dialog :visible="dialogVisible" title="Edit your category" width="70%">
-      <el-form ref="formEdit" :model="form" label-width="120px">
-        <el-form-item label="Group title">
+      <el-form ref="formEdit" :model="formEdit" label-width="120px">
+        <el-form-item label="Group title" prop="title">
           <el-input v-model="formEdit.title" placeholder="Type your group title" />
         </el-form-item>
-        <el-form-item label="Description">
-          <el-input v-model="formEdit.desc" type="textarea" placeholder="Describe your group" />
+        <el-form-item label="Description" prop="description">
+          <el-input ref="description" v-model="formEdit.description" type="textarea" placeholder="Describe your group" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -152,7 +149,7 @@ export default {
       },
       formEdit: {
         title: '',
-        desc: '',
+        description: '',
         value: [],
         options: []
       },
@@ -184,6 +181,7 @@ export default {
           this.loading = true
           try {
             add(this.form)
+            this.fetchData()
             this.loading = false
             this.$message('Category created successfully!')
           } catch (error) {
@@ -197,7 +195,7 @@ export default {
     },
     onCancel() {
       this.form.title = ''
-      this.form.desc = ''
+      this.form.description = ''
       this.form.value = []
       this.$message({
         message: 'cancel!',
@@ -213,9 +211,11 @@ export default {
     },
     deleteClick() { },
     editClick(row) {
+      console.log(row.slug)
       this.formEdit.title = row.title
-      this.formEdit.desc = row.description
-      this.getArticles(row.id)
+      this.formEdit.description = row.description
+      this.formEdit.slug = row.slug
+      // this.getArticles(row)
       this.dialogVisible = true
       this.canEdit = false
     },
@@ -245,11 +245,12 @@ export default {
       this.visible = false
       this.$emit('onCancel')
     },
-    onEdit(row) {
+    onEdit() {
       // update category
+      console.log('edit', this.formEdit.slug)
       this.loading = true
       try {
-        edit(this.form)
+        edit(this.formEdit, this.formEdit.slug)
         this.loading = false
         this.$message('Category updated successfully!')
       } catch (error) {

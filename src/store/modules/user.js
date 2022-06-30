@@ -1,5 +1,9 @@
 import { login, logout, getInfo, register } from '@/api/user'
+<<<<<<< HEAD
 import { getToken, setToken, removeToken, getUserPhoto, setUsername, setUserPhoto, getUsername, setFirstname, getFirstname, setLastName, getLastName, setEmail, getEmail } from '@/utils/auth'
+=======
+import { getToken, getUserId, setToken, removeToken, getUserPhoto, setUsername, setUserId, setUserPhoto, getUsername } from '@/utils/auth'
+>>>>>>> 934ce9e279b12fa5db78846fb8e6a53ee2a515af
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
@@ -7,9 +11,13 @@ const getDefaultState = () => {
     token: getToken(),
     username: getUsername(),
     photo: getUserPhoto(),
+<<<<<<< HEAD
     first_name: getFirstname(),
     last_name: getLastName(),
     email: getEmail()
+=======
+    userId: getUserId()
+>>>>>>> 934ce9e279b12fa5db78846fb8e6a53ee2a515af
   }
 }
 
@@ -36,6 +44,9 @@ const mutations = {
   },
   SET_AVATAR: (state, photo) => {
     state.photo = photo
+  },
+  SET_USER_ID: (state, userId) => {
+    state.userId = userId
   }
 }
 
@@ -59,6 +70,11 @@ const actions = {
         // save user token in local storage
         commit('SET_TOKEN', data.tokens.id_token)
         setToken(data.tokens.id_token, data.tokens.expires_in)
+
+        // save user id in storage
+        commit('SET_USER_ID', data.id)
+        // save user id in local storage
+        setUserId(data.id)
 
         // save user name in cookies
         commit('SET_NAME', username)
