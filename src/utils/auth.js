@@ -4,13 +4,10 @@ const TokenKey = 'id_token'
 const ExpireIn = 'expires_in'
 const UserName = 'user_name'
 const UserPhoto = 'user_photo'
-<<<<<<< HEAD
 const FirstName = 'first_name'
 const LastName = 'last_name'
 const email = 'email'
-=======
 const UserId = 'user_id'
->>>>>>> 934ce9e279b12fa5db78846fb8e6a53ee2a515af
 
 export function getToken() {
   return window.localStorage.getItem(TokenKey)

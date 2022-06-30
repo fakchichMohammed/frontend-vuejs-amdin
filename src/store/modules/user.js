@@ -1,9 +1,5 @@
 import { login, logout, getInfo, register } from '@/api/user'
-<<<<<<< HEAD
 import { getToken, setToken, removeToken, getUserPhoto, setUsername, setUserPhoto, getUsername, setFirstname, getFirstname, setLastName, getLastName, setEmail, getEmail } from '@/utils/auth'
-=======
-import { getToken, getUserId, setToken, removeToken, getUserPhoto, setUsername, setUserId, setUserPhoto, getUsername } from '@/utils/auth'
->>>>>>> 934ce9e279b12fa5db78846fb8e6a53ee2a515af
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
@@ -11,13 +7,9 @@ const getDefaultState = () => {
     token: getToken(),
     username: getUsername(),
     photo: getUserPhoto(),
-<<<<<<< HEAD
     first_name: getFirstname(),
     last_name: getLastName(),
     email: getEmail()
-=======
-    userId: getUserId()
->>>>>>> 934ce9e279b12fa5db78846fb8e6a53ee2a515af
   }
 }
 
