@@ -1,12 +1,15 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="Group title">
-        <el-input v-model="form.title" placeholder="Type your group title" />
+    <!-- create group -->
+    <el-form ref="form" :model="form" :rules="GroupRules" label-width="120px">
+      <el-form-item label="Group title" prop="title">
+        <el-input ref="title" v-model="form.title" placeholder="Type your group title" name="title" />
       </el-form-item>
-      <el-form-item label="List of articles">
+      <el-form-item label="List of articles" prop="articles">
         <el-select
+          ref="articles"
           v-model="form.value"
+          name="articles"
           style="display: block"
           multiple
           col="12"
@@ -23,9 +26,11 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="Description">
+      <el-form-item label="Description" prop="description">
         <el-input
-          v-model="form.desc"
+          ref="description"
+          v-model="form.description"
+          name="description"
           type="textarea"
           placeholder="Describe your group"
         />
@@ -38,6 +43,7 @@
     <br>
     <br>
     <br>
+    <!-- list group -->
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -65,7 +71,7 @@
       </el-table-column>
       <el-table-column label="Articles" width="90" align="center">
         <template slot-scope="scope">
-          {{ scope.row.articles }}
+          {{ scope.row.articles.length }}
         </template>
       </el-table-column>
       <el-table-column
@@ -110,12 +116,13 @@
     </el-table>
     <!-- dialog edit form -->
     <el-dialog :visible="dialogVisible" title="Edit your group" width="70%">
-      <el-form ref="formEdit" :model="form" label-width="120px">
-        <el-form-item label="Group title">
-          <el-input v-model="formEdit.title" placeholder="Type your group title" />
+      <el-form ref="formEdit" :model="formEdit" label-width="120px">
+        <el-form-item label="Group title" prop="title">
+          <el-input ref="title" v-model="formEdit.title" placeholder="Type your group title" />
         </el-form-item>
-        <el-form-item label="List of articles">
+        <el-form-item label="List of articles" prop="articles">
           <el-select
+            ref="articles"
             v-model="formEdit.value"
             style="display: block"
             multiple
@@ -133,9 +140,10 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="Description">
+        <el-form-item label="Description" prop="description">
           <el-input
-            v-model="formEdit.desc"
+            ref="description"
+            v-model="formEdit.description"
             type="textarea"
             placeholder="Describe your group"
           />
@@ -154,7 +162,7 @@
   </div>
 </template>
 <script>
-import { getList } from '@/api/groups'
+import { getList, add, edit, deleteGroup } from '@/api/groups'
 
 export default {
   filters: {
@@ -168,10 +176,17 @@ export default {
     }
   },
   data() {
+    const validateTitle = (rule, value, callback) => {
+      if (value.length < 3) {
+        callback(new Error(' Group title can not be less than 3 digits'))
+      } else {
+        callback()
+      }
+    }
     return {
       form: {
         title: '',
-        desc: '',
+        description: '',
         value: [],
         options: [
           {
@@ -189,9 +204,17 @@ export default {
           }
         ]
       },
+      CategoryRules: {
+        title: [
+          { required: true, trigger: 'blur', validator: validateTitle }
+        ]
+        /* description: [
+          { required: false, trigger: 'blur', validator: validateDescription }
+        ] */
+      },
       formEdit: {
         title: '',
-        desc: '',
+        description: '',
         slug: '',
         value: [],
         options: []
@@ -205,17 +228,41 @@ export default {
       }
     }
   },
+  watch: {
+    $route: {
+      handler: function(route) {
+        this.redirect = route.query && route.query.redirect
+      },
+      immediate: true
+    }
+  },
   created() {
     this.fetchData()
   },
   methods: {
     onSubmit() {
       // post new group
-      this.$message('submit!')
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          this.loading = true
+          try {
+            add(this.form).then(() => {
+              this.fetchData()
+              this.$message('Group created successfully!')
+            })
+            this.loading = false
+          } catch (error) {
+            this.loading = false
+          }
+        } else {
+          console.log('Group error!!')
+          return false
+        }
+      })
     },
     onCancel() {
       this.form.title = ''
-      this.form.desc = ''
+      this.form.description = ''
       this.form.value = []
       this.$message({
         message: 'cancel!',
@@ -225,23 +272,21 @@ export default {
     fetchData() {
       this.listLoading = true
       getList().then((response) => {
-        this.list = response.data.items
+        this.list = response.data
         this.listLoading = false
       })
     },
     deleteClick() {},
     editClick(row) {
       this.formEdit.title = row.title
-      this.formEdit.desc = row.description
+      this.formEdit.description = row.description
       this.formEdit.slug = row.slug
-      console.log(row)
       // this.getArticles(row.id)
       this.dialogVisible = true
       this.canEdit = false
     },
     getArticles(groupId) {
       // fetch articles of the group
-      console.log(groupId)
       this.formEdit.value = [
         'Mon article sur la block chaine que je ne kiff pas trou mais woow que du bkabka',
         'CSS',
@@ -249,7 +294,17 @@ export default {
       ]
     },
     confirmDelete(row) {
-      console.log('clicked on delete', row)
+      // delete group
+      this.loading = true
+      try {
+        deleteGroup(this.form).then(() => {
+          this.fetchData()
+          this.$message('Category deleted successfully!')
+        })
+        this.loading = false
+      } catch (error) {
+        this.loading = false
+      }
       this.visible = false
       this.$emit('onConfirm')
     },
@@ -259,7 +314,16 @@ export default {
     },
     onEdit() {
       // update group
-      console.log('Edit group', this.formEdit.slug)
+      this.loading = true
+      try {
+        edit(this.formEdit, this.formEdit.slug).then(() => {
+          this.fetchData()
+          this.$message('Category updated successfully!')
+        })
+        this.loading = false
+      } catch (error) {
+        this.loading = false
+      }
       this.dialogVisible = false
     },
     openDetails(row) {
