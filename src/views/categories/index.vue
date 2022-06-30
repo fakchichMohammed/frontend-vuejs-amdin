@@ -1,12 +1,25 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="Category title">
-        <el-input v-model="form.title" placeholder="Type your category title" />
-      </el-form-item>
-      <el-form-item label="Description">
+    <el-form ref="form" :model="form" :rules="CategoryRules" label-width="120px">
+      <div class="title-container">
+        <h2 class="title">Create Category : </h2>
+      </div>
+      <el-form-item label="Category title" prop="title">
         <el-input
-          v-model="form.desc"
+          ref="title"
+          v-model="form.title"
+          placeholder="Type your category title"
+          name="title"
+          type="text"
+          tabindex="1"
+          auto-complete="on"
+        />
+      </el-form-item>
+      <el-form-item label="Description" prop="description">
+        <el-input
+          ref="description"
+          v-model="form.description"
+          name="description"
           type="textarea"
           placeholder="Describe your category"
         />
@@ -19,14 +32,7 @@
     <br>
     <br>
     <br>
-    <el-table
-      v-loading="listLoading"
-      :data="list"
-      element-loading-text="Loading"
-      border
-      fit
-      highlight-current-row
-    >
+    <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column align="center" label="ID" width="95">
         <template slot-scope="scope">
           {{ scope.$index }}
@@ -39,12 +45,7 @@
           </el-link>
         </template>
       </el-table-column>
-      <el-table-column
-        align="center"
-        prop="created_at"
-        label="Created_at"
-        width="200"
-      >
+      <el-table-column align="center" prop="created_at" label="Created_at" width="200">
         <template slot-scope="scope">
           <i class="el-icon-time" />
           <span>{{ scope.row.created_at }}</span>
@@ -52,11 +53,7 @@
       </el-table-column>
       <el-table-column fixed="right" label="Operations" width="120">
         <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="small"
-            @click.native.prevent="editClick(scope.row)"
-          >
+          <el-button type="text" size="small" @click.native.prevent="editClick(scope.row)">
             Edit
           </el-button>
           <el-popconfirm
@@ -69,11 +66,7 @@
             @onCancel="cancelDelete"
           >
             <template #reference>
-              <el-link
-                class="el-btn "
-                type="danger"
-                :underline="false"
-              >Delete</el-link>
+              <el-link class="el-btn" type="danger" :underline="false">Delete</el-link>
             </template>
           </el-popconfirm>
         </template>
@@ -86,29 +79,23 @@
           <el-input v-model="formEdit.title" placeholder="Type your group title" />
         </el-form-item>
         <el-form-item label="Description">
-          <el-input
-            v-model="formEdit.desc"
-            type="textarea"
-            placeholder="Describe your group"
-          />
+          <el-input v-model="formEdit.desc" type="textarea" placeholder="Describe your group" />
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">Cancel</el-button>
-          <el-button
-            type="primary"
-            @click="onEdit"
-          >Edit</el-button>
+          <el-button type="primary" @click="onEdit">Edit</el-button>
         </span>
       </template>
     </el-dialog>
   </div>
 </template>
 <script>
-import { getList } from '@/api/categories'
+import { getList, add, edit, deleteCategory } from '@/api/categories'
 
 export default {
+  name: 'Category',
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -120,10 +107,24 @@ export default {
     }
   },
   data() {
+    const validateTitle = (rule, value, callback) => {
+      if (value.length < 3) {
+        callback(new Error(' Category title can not be less than 3 digits'))
+      } else {
+        callback()
+      }
+    }
+    /*  const validateDescription = (rule, value, callback) => {
+      if (value.length === 0) {
+        callback(new Error(' Category description can not be less than 3 digits'))
+      } else {
+        callback()
+      }
+    } */
     return {
       form: {
         title: '',
-        desc: '',
+        description: '',
         value: [],
         options: [
           {
@@ -141,6 +142,14 @@ export default {
           }
         ]
       },
+      CategoryRules: {
+        title: [
+          { required: true, trigger: 'blur', validator: validateTitle }
+        ]
+        /* description: [
+          { required: false, trigger: 'blur', validator: validateDescription }
+        ] */
+      },
       formEdit: {
         title: '',
         desc: '',
@@ -156,13 +165,35 @@ export default {
       }
     }
   },
+  watch: {
+    $route: {
+      handler: function(route) {
+        this.redirect = route.query && route.query.redirect
+      },
+      immediate: true
+    }
+  },
   created() {
     this.fetchData()
   },
   methods: {
     onSubmit() {
       // post new group
-      this.$message('submit!')
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          this.loading = true
+          try {
+            add(this.form)
+            this.loading = false
+            this.$message('Category created successfully!')
+          } catch (error) {
+            this.loading = false
+          }
+        } else {
+          console.log('Category error!!')
+          return false
+        }
+      })
     },
     onCancel() {
       this.form.title = ''
@@ -180,7 +211,7 @@ export default {
         this.listLoading = false
       })
     },
-    deleteClick() {},
+    deleteClick() { },
     editClick(row) {
       this.formEdit.title = row.title
       this.formEdit.desc = row.description
@@ -198,7 +229,15 @@ export default {
       ]
     },
     confirmDelete(row) {
-      console.log('clicked on delete', row)
+      // delete category
+      this.loading = true
+      try {
+        deleteCategory(this.form)
+        this.loading = false
+        this.$message('Category deleted successfully!')
+      } catch (error) {
+        this.loading = false
+      }
       this.visible = false
       this.$emit('onConfirm')
     },
@@ -207,8 +246,15 @@ export default {
       this.$emit('onCancel')
     },
     onEdit(row) {
-      // update group
-      console.log('Edit group', row)
+      // update category
+      this.loading = true
+      try {
+        edit(this.form)
+        this.loading = false
+        this.$message('Category updated successfully!')
+      } catch (error) {
+        this.loading = false
+      }
       this.dialogVisible = false
     },
     openDetails(row) {
@@ -223,10 +269,16 @@ export default {
 .line {
   text-align: center;
 }
-.el-btn{
+
+.el-btn {
   padding: 0.7em;
 }
-.red-el-btn{
-  color: '#F56C6C'
+
+.red-el-btn {
+  color: "#F56C6C";
+}
+
+.title-container {
+  margin-bottom: 5em;
 }
 </style>

@@ -98,134 +98,132 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleRegister"
-        >Register</el-button
-      >
+      >Register</el-button>
       <el-button
         :loading="loading"
         type="info"
         style="width: 100%; margin-bottom: 30px; margin-left: 0px"
         @click.native.prevent="handleLogin"
-        >Or Login</el-button
-      >
+      >Or Login</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
-import { validUsername } from "@/utils/validate";
-import { register } from "@/api/user";
+import { validUsername } from '@/utils/validate'
+import { register } from '@/api/user'
 
 export default {
-  name: "Register",
+  name: 'Register',
   data() {
     const validateFirstname = (rule, value, callback) => {
       if (value.length < 3) {
-        callback(new Error(" Your first name can not be less than 3 digits"));
+        callback(new Error(' Your first name can not be less than 3 digits'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     const validateLastname = (rule, value, callback) => {
       if (value.length < 3) {
-        callback(new Error(" Your last name can not be less than 3 digits"));
+        callback(new Error(' Your last name can not be less than 3 digits'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     const validateUsername = (rule, value, callback) => {
       if (value.length < 3) {
-        callback(new Error(" Your user name can not be less than 3 digits"));
+        callback(new Error(' Your user name can not be less than 3 digits'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     const validateEmail = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error(" please enter a correct email adress"));
+        callback(new Error(' please enter a correct email adress'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
 
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error("The password can not be less than 6 digits"));
+        callback(new Error('The password can not be less than 6 digits'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
 
     return {
       RegisterForm: {
-        firstname: "",
-        lastname: "",
-        username: "",
-        email: "",
-        password: "",
+        firstname: '',
+        lastname: '',
+        username: '',
+        email: '',
+        password: ''
       },
       RegisterRules: {
         firstname: [
-          { required: true, trigger: "blur", validator: validateFirstname },
+          { required: true, trigger: 'blur', validator: validateFirstname }
         ],
         lastname: [
-          { required: true, trigger: "blur", validator: validateLastname },
+          { required: true, trigger: 'blur', validator: validateLastname }
         ],
         username: [
-          { required: true, trigger: "blur", validator: validateUsername },
+          { required: true, trigger: 'blur', validator: validateUsername }
         ],
-        email: [{ required: true, trigger: "blur", validator: validateEmail }],
+        email: [{ required: true, trigger: 'blur', validator: validateEmail }],
         password: [
-          { required: true, trigger: "blur", validator: validatePassword },
-        ],
+          { required: true, trigger: 'blur', validator: validatePassword }
+        ]
       },
       loading: false,
-      passwordType: "password",
-      redirect: undefined,
-    };
+      passwordType: 'password',
+      redirect: undefined
+    }
   },
   watch: {
     $route: {
-      handler: function (route) {
-        this.redirect = route.query && route.query.redirect;
+      handler: function(route) {
+        this.redirect = route.query && route.query.redirect
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   methods: {
     showPwd() {
-      if (this.passwordType === "password") {
-        this.passwordType = "";
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
       } else {
-        this.passwordType = "password";
+        this.passwordType = 'password'
       }
       this.$nextTick(() => {
-        this.$refs.password.focus();
-      });
+        this.$refs.password.focus()
+      })
     },
     handleRegister() {
       this.$refs.RegisterForm.validate((valid) => {
         if (valid) {
-          this.loading = true;
+          this.loading = true
           this.$store
-            .dispatch("user/register", this.RegisterForm)
+            .dispatch('user/register', this.RegisterForm)
             .then(() => {
-              this.$router.push({ path: this.redirect || "/" });
-              this.loading = false;
+              this.$router.push({ path: this.redirect || '/' })
+              this.loading = false
             })
             .catch(() => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         } else {
-          console.log("Registration error!!");
-          return false;
+          console.log('Registration error!!')
+          return false
         }
-      });
+      })
     },
     handleLogin() {
-      this.$router.push({ path: "/login" });
-    },
-  },
-};
+      this.$router.push({ path: '/login' })
+    }
+  }
+}
 </script>
 
 <style lang="scss">

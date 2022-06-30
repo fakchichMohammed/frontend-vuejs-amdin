@@ -45,7 +45,7 @@ const actions = {
     const { username, password, first_name, last_name, email } = userInfo
     console.log('user store: ', userInfo)
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password, client_id: '249135', client_secret: '3f10dee1f069af8f9ef6cea626e5774f053319c37d211f27425f5b20' }).then(response => {
+      login({ username: username.trim(), password: password, client_id: '220243', client_secret: '67430d35f10a79df0e5171f10ad75863b957d8183091d3cfdc978d09' }).then(response => {
         console.log('inside login then')
         const { data } = response
 
