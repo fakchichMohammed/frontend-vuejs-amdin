@@ -253,6 +253,7 @@ export default {
         edit(this.formEdit, this.formEdit.slug)
         this.loading = false
         this.$message('Category updated successfully!')
+        this.fetchData()
       } catch (error) {
         this.loading = false
       }
