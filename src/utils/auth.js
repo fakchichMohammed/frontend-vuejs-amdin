@@ -4,6 +4,9 @@ const TokenKey = 'id_token'
 const ExpireIn = 'expires_in'
 const UserName = 'user_name'
 const UserPhoto = 'user_photo'
+const FirstName = 'first_name'
+const LastName = 'last_name'
+const email = 'email'
 
 export function getToken() {
   return window.localStorage.getItem(TokenKey)
@@ -28,6 +31,24 @@ export function setUsername(userName) {
 export function getUsername() {
   return Cookies.get(UserName)
 }
+
+export function setFirstname(firstName) {
+  return Cookies.set(FirstName, firstName)
+}
+
+export function getFirstname() {
+  return Cookies.get(FirstName)
+}
+
+export function setLastName(lastname) {
+  return Cookies.set(LastName, lastname)
+}
+
+export function getLastName() {
+  return Cookies.get(LastName)
+}
+
+
 
 export function setUserPhoto(userPhoto) {
   return Cookies.set(UserPhoto, userPhoto)
