@@ -31,7 +31,7 @@ const mutations = {
   SET_LAST_NAME: (state, last_name) => {
     state.last_name = last_name
   },
-  SET_FIRST_NAME: (state, email) => {
+  SET_EMAIL: (state, email) => {
     state.email = email
   },
   SET_AVATAR: (state, photo) => {
@@ -42,7 +42,7 @@ const mutations = {
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password, first_name, last_name, email } = userInfo
+    const { username, password, firstname, lastname, email } = userInfo
     console.log('user store: ', userInfo)
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password, client_id: '220243', client_secret: '67430d35f10a79df0e5171f10ad75863b957d8183091d3cfdc978d09' }).then(response => {
@@ -53,7 +53,7 @@ const actions = {
           return reject('Verification failed, please Login again.')
         }
 
-        const { username, photo, first_name, last_name, email} = data
+        const { username, photo, first_name, last_name, email } = data
         console.log(data)
 
         // save user token in local storage
