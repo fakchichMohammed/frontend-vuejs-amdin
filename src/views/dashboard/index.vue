@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { getEmail } from '@/utils/auth'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -32,7 +33,24 @@ export default {
       'last_name',
       'email'
     ])
-  }
+  },
+
+methods: {
+  onSubmit() {
+      this.$refs.onSubmit.validate((valid) => {
+        if (valid) {
+          this.loading = true
+          email, last_name, first_name, username= enabled
+            .catch(() => {
+              this.loading = false
+            })
+        } else {
+          console.log('Edit error!!')
+          return false
+        }
+      })
+    }
+}
 }
 </script>
 
