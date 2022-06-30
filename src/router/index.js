@@ -65,10 +65,16 @@ export const constantRoutes = [
     meta: { title: 'Articles', icon: 'el-icon-s-help' },
     children: [
       {
-        path: 'index',
-        name: 'Articles',
-        component: () => import('@/views/author/articles/index'),
-        meta: { title: 'Articles', icon: 'form' }
+        path: 'my-articles',
+        name: 'my_articles',
+        component: () => import('@/views/author/articles/myArticles'),
+        meta: { title: 'My articles', icon: 'form' }
+      },
+      {
+        path: 'add-article',
+        name: 'add_article',
+        component: () => import('@/views/author/articles/addForm'),
+        meta: { title: 'Add article', icon: 'form' }
       },
       {
         path: 'list',
