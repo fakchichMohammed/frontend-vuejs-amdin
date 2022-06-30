@@ -16,7 +16,8 @@ import {
   setEmail,
   getEmail,
   getUserType,
-  setUserType
+  setUserType,
+  removeUserInfo
 } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -28,7 +29,7 @@ const getDefaultState = () => {
     first_name: getFirstname(),
     last_name: getLastName(),
     email: getEmail(),
-    userType: getUserType(),
+    user_type: getUserType(),
     userId: getUserId()
   }
 }
@@ -54,8 +55,8 @@ const mutations = {
   SET_EMAIL: (state, email) => {
     state.email = email
   },
-  SET_USER_TYPE: (state, userType) => {
-    state.userType = userType
+  SET_USER_TYPE: (state, user_type) => {
+    state.user_type = user_type
   },
   SET_AVATAR: (state, photo) => {
     state.photo = photo
@@ -186,6 +187,7 @@ const actions = {
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
       removeToken() // must remove  token  first
+      removeUserInfo()
       resetRouter()
       commit('RESET_STATE')
       resolve()

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <!-- create group -->
-    <el-form ref="form" :model="form" :rules="GroupRules" label-width="120px">
+    <el-form v-if="userType === 'Publisher'" ref="form" :model="form" :rules="GroupRules" label-width="120px">
       <el-form-item label="Group title" prop="title">
         <el-input ref="title" v-model="form.title" placeholder="Type your group title" name="title" />
       </el-form-item>
@@ -85,7 +85,7 @@
           <span>{{ scope.row.created_at }}</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="Operations" width="120">
+      <el-table-column v-if="userType === 'Publisher'" fixed="right" label="Operations" width="120">
         <template slot-scope="scope">
           <el-button
             type="text"
@@ -111,6 +111,17 @@
               >Delete</el-link>
             </template>
           </el-popconfirm>
+        </template>
+      </el-table-column>
+      <el-table-column v-if="userType === 'Author'" fixed="right" label="Operations" width="120">
+        <template slot-scope="scope">
+          <el-button
+            type="text"
+            size="small"
+            @click.native.prevent="addArticle(scope.row)"
+          >
+            Join article
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -164,6 +175,7 @@
 <script>
 import { getList, add, edit, deleteGroup } from '@/api/groups'
 import { getArticlesList } from '@/api/articles'
+import store from '@/store/index'
 
 export default {
   filters: {
@@ -222,7 +234,8 @@ export default {
       listLoading: true,
       confirmEvent: () => {
         console.log('confirm!')
-      }
+      },
+      userType: store.getters.user_type
     }
   },
   watch: {
@@ -234,6 +247,7 @@ export default {
     }
   },
   created() {
+    console.log(this.userType)
     this.fetchData()
     this.getArticles()
   },
