@@ -60,7 +60,6 @@ export function deleteGroup(groupInfo) {
   return new Promise((resolve, reject) => {
     remove({ title: title.trim(), description: description.trim() })
       .then((response) => {
-        console.log('inside group then')
         const { data } = response
 
         if (!data) {
@@ -68,12 +67,7 @@ export function deleteGroup(groupInfo) {
         }
 
         // const { username, firstname } = data
-        console.log(data)
-        /* commit('SET_TOKEN', data.tokens.id_token)
-      setToken(data.tokens.id_token, data.tokens.expires_in)
-      commit('SET_NAME', username)
-      commit('SET_AVATAR', photo) */
-        // resolve()
+        resolve()
       })
       .catch((error) => {
         reject(error)
@@ -87,20 +81,17 @@ export function update(data, group_slug) {
     url: apiUrl + group_slug,
     method: 'put',
     headers: { 'Content-Type': 'application/json' },
-    data,
+    data
   })
 }
 
 // handle edit group
 export function edit(groupInfo, groupSlug) {
-  console.log('inside group edit then', groupSlug)
-  console.log(groupInfo)
   const { title, description } = groupInfo
   const slug = slugify(title)
   return new Promise((resolve, reject) => {
     update({ title: title.trim(), slug: slug, description: description.trim() }, groupSlug)
       .then((response) => {
-        console.log('inside group then')
         const { data } = response
 
         if (!data) {
@@ -108,12 +99,7 @@ export function edit(groupInfo, groupSlug) {
         }
 
         // const { username, firstname } = data
-        console.log(data)
-        /* commit('SET_TOKEN', data.tokens.id_token)
-      setToken(data.tokens.id_token, data.tokens.expires_in)
-      commit('SET_NAME', username)
-      commit('SET_AVATAR', photo) */
-        // resolve()
+        resolve()
       })
       .catch((error) => {
         reject(error)
