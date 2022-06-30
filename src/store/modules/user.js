@@ -1,12 +1,13 @@
 import { login, logout, getInfo, register } from '@/api/user'
-import { getToken, setToken, removeToken, getUserPhoto, setUsername, setUserPhoto, getUsername } from '@/utils/auth'
+import { getToken, setToken, removeToken, getUserPhoto, setUsername, setUserPhoto, getUsername, setFirstname, getFirstname } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
     token: getToken(),
     username: getUsername(),
-    photo: getUserPhoto()
+    photo: getUserPhoto(),
+    first_name: getFirstname()
   }
 }
 
@@ -22,6 +23,9 @@ const mutations = {
   SET_NAME: (state, username) => {
     state.username = username
   },
+  SET_FIRST_NAME: (state, first_name) => {
+    state.first_name = first_name
+  },
   SET_AVATAR: (state, photo) => {
     state.photo = photo
   }
@@ -30,7 +34,7 @@ const mutations = {
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password } = userInfo
+    const { username, password, first_name } = userInfo
     console.log('user store: ', userInfo)
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password, client_id: '249135', client_secret: '3f10dee1f069af8f9ef6cea626e5774f053319c37d211f27425f5b20' }).then(response => {
@@ -41,7 +45,7 @@ const actions = {
           return reject('Verification failed, please Login again.')
         }
 
-        const { username, photo } = data
+        const { username, photo, first_name} = data
         console.log(data)
 
         // save user token in local storage
@@ -51,7 +55,11 @@ const actions = {
         // save user name in cookies
         commit('SET_NAME', username)
         setUsername(username)
-
+        // save user first name
+        commit('SET_FIRST_NAME', first_name)
+        setFirstname(first_name)
+        console.log(first_name, data)
+        
         // save user photo in cookies
         commit('SET_AVATAR', photo)
         setUserPhoto(photo)
