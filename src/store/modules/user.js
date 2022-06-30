@@ -1,12 +1,13 @@
 import { login, logout, getInfo, register } from '@/api/user'
-import { getToken, setToken, removeToken, getUserPhoto, setUsername, setUserPhoto, getUsername } from '@/utils/auth'
+import { getToken, getUserId, setToken, removeToken, getUserPhoto, setUsername, setUserId, setUserPhoto, getUsername } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
     token: getToken(),
     username: getUsername(),
-    photo: getUserPhoto()
+    photo: getUserPhoto(),
+    userId: getUserId()
   }
 }
 
@@ -24,6 +25,9 @@ const mutations = {
   },
   SET_AVATAR: (state, photo) => {
     state.photo = photo
+  },
+  SET_USER_ID: (state, userId) => {
+    state.userId = userId
   }
 }
 
@@ -47,6 +51,11 @@ const actions = {
         // save user token in local storage
         commit('SET_TOKEN', data.tokens.id_token)
         setToken(data.tokens.id_token, data.tokens.expires_in)
+
+        // save user id in storage
+        commit('SET_USER_ID', data.id)
+        // save user id in local storage
+        setUserId(data.id)
 
         // save user name in cookies
         commit('SET_NAME', username)
