@@ -79,6 +79,7 @@ export default {
       this.listLoading = true
       getList().then((response) => {
         this.categories = response.data
+        console.log(response.data)
         this.listLoading = false
       })
     },
@@ -88,7 +89,7 @@ export default {
           this.loading = true
           this.form.slug = slugify(this.form.title, { lower: true })
           const categoriesToSubmit = []
-          for (const category in this.form.categoriesSelected) {
+          for (const category of this.form.categoriesSelected) {
             categoriesToSubmit.push(parseInt(category))
           }
           try {
