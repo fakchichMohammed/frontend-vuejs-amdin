@@ -5,7 +5,7 @@
         <el-input v-model=" username " class="dashboard-input" disabled />
       </el-form-item>
       <el-form-item label="First Name">
-        <el-input v-model=" first_name " class="dashboard-input"  />
+        <el-input v-model=" first_name " class="dashboard-input" />
       </el-form-item>
       <el-form-item label="Last Name">
         <el-input v-model=" last_name " class="dashboard-input" />
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { getEmail } from '@/utils/auth'
+// import { getEmail } from '@/utils/auth'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -33,24 +33,36 @@ export default {
       'last_name',
       'email'
     ])
-  },
-
-methods: {
-  onSubmit() {
-      this.$refs.onSubmit.validate((valid) => {
-        if (valid) {
-          this.loading = true
-          email, last_name, first_name, username= enabled
-            .catch(() => {
-              this.loading = false
-            })
-        } else {
-          console.log('Edit error!!')
-          return false
-        }
-      })
-    }
-}
+  }
+  // data() {
+  //   return {
+  //     EditForm: {
+  //       first_name:'',
+  //       last_name:''
+  //     }
+  //   }
+  // },
+  // methods: {
+  //   handleEdit() {
+  //     this.$refs.EditForm.validate((valid) => {
+  //       if (valid) {
+  //         this.loading = true
+  //         this.$store
+  //           .dispatch('user/edit', this.EditForm)
+  //           .then(() => {
+  //             this.$router.push({ path: this.redirect || '/dashboard' })
+  //             this.loading = false
+  //           })
+  //           .catch(() => {
+  //             this.loading = false
+  //           })
+  //       } else {
+  //         console.log('Edit error!!')
+  //         return false
+  //       }
+  //     })
+  //   }
+  // }
 }
 </script>
 

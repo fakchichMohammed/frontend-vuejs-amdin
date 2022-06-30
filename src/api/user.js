@@ -32,3 +32,12 @@ export function register(data) {
     data
   })
 }
+
+// export function edit(id,data) {
+//   return request({
+//     url: 'http://178.33.234.128:8022/api/users/'+id,
+//     method: 'put',
+//     headers: { 'Content-Type': 'application/json' },
+//     data
+//   })
+// }
