@@ -196,21 +196,7 @@ export default {
         title: '',
         description: '',
         articles: [],
-        options: [
-          {
-            value: 'HTML',
-            label:
-              'Mon article sur la block chaine que je ne kiff pas trou mais woow que du bkabka'
-          },
-          {
-            value: 'CSS',
-            label: 'CSS'
-          },
-          {
-            value: 'JavaScript',
-            label: 'JavaScript'
-          }
-        ]
+        options: []
       },
       GroupRules: {
         title: [
@@ -299,30 +285,36 @@ export default {
     },
     getArticles(groupId) {
       if (!groupId) {
-        console.log('get articles')
         this.listLoading = true
         getArticlesList().then((response) => {
-          /* response.data.forEach(function(arrayItem) {
-            for (const [key, value] of Object.entries(arrayItem)) {
-              console.log(`${key}: ${value}`)
-            }
-          }) */
           response.data.map(({ title, slug, id }) => {
-            console.log(`${title} with quantity ${slug} with price ${id}`)
+            const articles = {
+              value: id,
+              label: title
+            }
+            this.form.options.push(articles)
           })
-
-          /* const { title, slug, id } = response.data
-          // this.form.options = response.data
-          console.log(response.data) */
           this.listLoading = false
         })()
+      } else {
+        // fetch articles of the group
+        this.listLoading = true
+        getArticlesList().then((response) => {
+          response.data.map(({ title, slug, id }) => {
+            const articles = {
+              value: id,
+              label: title
+            }
+            this.form.options.push(articles)
+          })
+          this.listLoading = false
+        })()
+        this.formEdit.articles = [
+          'Mon article sur la block chaine que je ne kiff pas trou mais woow que du bkabka',
+          'CSS',
+          'JavaScript'
+        ]
       }
-      // fetch articles of the group
-      this.formEdit.articles = [
-        'Mon article sur la block chaine que je ne kiff pas trou mais woow que du bkabka',
-        'CSS',
-        'JavaScript'
-      ]
     },
     confirmDelete(row) {
       // delete group
