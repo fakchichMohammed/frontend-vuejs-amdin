@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import { getList } from '@/api/articles'
+import { getMyArticles } from '@/api/articles'
 
 export default {
   data() {
@@ -143,7 +143,7 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      getList().then((response) => {
+      getMyArticles().then((response) => {
         this.articlesList = response.data
         this.listLoading = false
         console.log('ok')
