@@ -21,11 +21,14 @@ router.beforeEach(async(to, from, next) => {
   const hasToken = getToken()
 
   if (hasToken) {
-    if (to.path === '/login' || to.path === '/register') {
+    if (to.path === '/login') {
       // if is logged in, redirect to the home page
       next({ path: '/' })
       NProgress.done()
-    } else {
+    } else if (to.path === '/register') {
+      next({ path: '/login' })
+      NProgress.done()
+    }else {
       const hasGetUserInfo = store.getters.username
       if (hasGetUserInfo) {
         next()

@@ -10,6 +10,7 @@ const getDefaultState = () => {
     first_name: getFirstname(),
     last_name: getLastName(),
     email: getEmail(),
+    // usertype: getUsertype(),,
     userId: getUserId()
   }
 }
@@ -35,6 +36,9 @@ const mutations = {
   SET_EMAIL: (state, email) => {
     state.email = email
   },
+  // SET_USER_TYPE: (state, photo) => {
+  //   state.photo = photo
+  // },
   SET_AVATAR: (state, photo) => {
     state.photo = photo
   },
@@ -81,6 +85,11 @@ const actions = {
         // save user email
         commit('SET_EMAIL', email)
         setEmail(email)
+        console.log(email, data)
+
+        // commit('SET_USER_TYPE', usertype)
+        // setUsertype(usertype)
+        // console.log(usertype, data)
 
         // save user photo in cookies
         commit('SET_AVATAR', photo)

@@ -178,7 +178,7 @@ export default {
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: '/login'
     }
   },
   watch: {
@@ -207,7 +207,7 @@ export default {
           this.$store
             .dispatch('user/register', this.RegisterForm)
             .then(() => {
-              this.$router.push({ path: this.redirect || '/' })
+              this.$router.push({ path: this.redirect || '/login' })
               this.loading = false
             })
             .catch(() => {

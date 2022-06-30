@@ -5,10 +5,10 @@
         <el-input v-model=" username " class="dashboard-input" disabled />
       </el-form-item>
       <el-form-item label="First Name">
-        <el-input v-model=" first_name " class="dashboard-input" disabled />
+        <el-input v-model=" first_name " class="dashboard-input"  />
       </el-form-item>
       <el-form-item label="Last Name">
-        <el-input v-model=" last_name " class="dashboard-input" disabled />
+        <el-input v-model=" last_name " class="dashboard-input" />
       </el-form-item>
       <el-form-item label="Email">
         <el-input v-model=" email " class="dashboard-input" disabled />
