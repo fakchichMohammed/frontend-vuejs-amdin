@@ -1,5 +1,5 @@
 import { login, logout, getInfo, register } from '@/api/user'
-import { getToken, setToken, removeToken, getUserPhoto, setUsername, setUserPhoto, getUsername, setFirstname, getFirstname } from '@/utils/auth'
+import { getToken, setToken, removeToken, getUserPhoto, setUsername, setUserPhoto, getUsername, setFirstname, getFirstname, setLastName, getLastName, setEmail, getEmail } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
@@ -7,7 +7,9 @@ const getDefaultState = () => {
     token: getToken(),
     username: getUsername(),
     photo: getUserPhoto(),
-    first_name: getFirstname()
+    first_name: getFirstname(),
+    last_name: getLastName(),
+    email: getEmail()
   }
 }
 
@@ -26,6 +28,12 @@ const mutations = {
   SET_FIRST_NAME: (state, first_name) => {
     state.first_name = first_name
   },
+  SET_LAST_NAME: (state, last_name) => {
+    state.last_name = last_name
+  },
+  SET_FIRST_NAME: (state, email) => {
+    state.email = email
+  },
   SET_AVATAR: (state, photo) => {
     state.photo = photo
   }
@@ -34,7 +42,7 @@ const mutations = {
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password, first_name } = userInfo
+    const { username, password, first_name, last_name, email } = userInfo
     console.log('user store: ', userInfo)
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password, client_id: '249135', client_secret: '3f10dee1f069af8f9ef6cea626e5774f053319c37d211f27425f5b20' }).then(response => {
@@ -45,7 +53,7 @@ const actions = {
           return reject('Verification failed, please Login again.')
         }
 
-        const { username, photo, first_name} = data
+        const { username, photo, first_name, last_name, email} = data
         console.log(data)
 
         // save user token in local storage
@@ -59,7 +67,14 @@ const actions = {
         commit('SET_FIRST_NAME', first_name)
         setFirstname(first_name)
         console.log(first_name, data)
-        
+        // save user last name
+        commit('SET_LAST_NAME', last_name)
+        setLastName(last_name)
+        console.log(last_name, data)
+        // save user email
+        commit('SET_EMAIL', email)
+        setEmail(email)
+        console.log(email, data)
         // save user photo in cookies
         commit('SET_AVATAR', photo)
         setUserPhoto(photo)
@@ -73,10 +88,10 @@ const actions = {
 
   // register user
   register({ commit }, userInfo) {
-    const { firstname, lastname,username, email, password } = userInfo
+    const { firstname, lastname, username, email, password } = userInfo
     console.log('user store: ', userInfo)
     return new Promise((resolve, reject) => {
-      register({ first_name: firstname.trim(), last_name: lastname.trim(), username: username.trim(), email: email.trim(), password: password.trim()}).then(response => {
+      register({ first_name: firstname.trim(), last_name: lastname.trim(), username: username.trim(), email: email.trim(), password: password.trim() }).then(response => {
         console.log('inside register then')
         const { data } = response
 

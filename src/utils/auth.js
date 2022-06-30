@@ -48,6 +48,14 @@ export function getLastName() {
   return Cookies.get(LastName)
 }
 
+export function setEmail(email) {
+  return Cookies.set(email, email)
+}
+
+export function getEmail(email) {
+  return Cookies.get(email)
+}
+
 
 
 export function setUserPhoto(userPhoto) {
