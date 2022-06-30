@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 import { slugify } from '@/utils/slugfiy'
 
-const apiUrl = 'http://178.33.234.128:8022/api/group/'
+const apiUrl = 'http://178.33.234.128:8022/api/groups/'
 
 // fetch list group
 export function getList(params) {
