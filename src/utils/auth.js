@@ -6,9 +6,9 @@ const UserName = 'user_name'
 const UserPhoto = 'user_photo'
 const FirstName = 'first_name'
 const LastName = 'last_name'
-const email = 'email'
+const UserEmail = 'email'
 const UserId = 'user_id'
-// const usertype = 'user_type'
+const UserType = 'user_type'
 
 export function getToken() {
   return window.localStorage.getItem(TokenKey)
@@ -59,22 +59,20 @@ export function getLastName() {
 }
 
 export function setEmail(email) {
-  return Cookies.set(email, email)
+  return Cookies.set(UserEmail, email)
 }
 
-export function getEmail(email) {
-  return Cookies.get(email)
+export function getEmail() {
+  return Cookies.get(UserEmail)
 }
 
-// export function setUserType(userType) {
-//   return Cookies.set(userType, userType)
-// }
+export function setUserType(userType) {
+  return Cookies.set(UserType, userType)
+}
 
-// export function getUserType(userType) {
-//   return Cookies.get(userType)
-// }
-
-
+export function getUserType() {
+  return Cookies.get(UserType)
+}
 
 export function setUserPhoto(userPhoto) {
   return Cookies.set(UserPhoto, userPhoto)
@@ -82,4 +80,15 @@ export function setUserPhoto(userPhoto) {
 
 export function getUserPhoto() {
   return Cookies.get(UserPhoto)
+}
+
+export function removeUserInfo() {
+  Cookies.remove(UserEmail)
+  Cookies.remove(UserName)
+  Cookies.remove(UserId)
+  Cookies.remove(UserType)
+  Cookies.remove(UserPhoto)
+  Cookies.remove(FirstName)
+  Cookies.remove(LastName)
+  return
 }
