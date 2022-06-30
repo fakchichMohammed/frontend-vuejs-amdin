@@ -251,10 +251,11 @@ export default {
       // update category
       this.loading = true
       try {
-        edit(this.formEdit, this.formEdit.slug)
+        edit(this.formEdit, this.formEdit.slug).then(() => {
+          this.fetchData()
+          this.$message('Category updated successfully!')
+        })
         this.loading = false
-        this.$message('Category updated successfully!')
-        this.fetchData()
       } catch (error) {
         this.loading = false
       }
