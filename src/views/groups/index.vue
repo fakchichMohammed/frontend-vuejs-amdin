@@ -66,12 +66,12 @@
       </el-table-column>
       <el-table-column label="Owner" width="190" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.author }}</span>
+          <span>{{ scope.row.publisher.username }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Articles" width="90" align="center">
         <template slot-scope="scope">
-          {{ scope.row.articles }}
+          {{ Object.keys(scope.row.articles).length }}
         </template>
       </el-table-column>
       <el-table-column
@@ -170,6 +170,19 @@
         </span>
       </template>
     </el-dialog>
+    <!-- dialog articles details form -->
+    <el-dialog :visible="dialogVisibleDetails" title="Articles" width="90%">
+      <el-table :data="articlesData" style="width: 90%">
+        <el-table-column fixed prop="title" label="Titles" width="100" />
+        <el-table-column prop="description" label="Description" width="100" />
+      </el-table>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogVisibleDetails = false">Cancel</el-button>
+
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -229,13 +242,16 @@ export default {
         options: []
       },
       dialogVisible: false,
+      dialogVisibleDetails: false,
+      articlesData: [],
       canEdit: true,
       list: null,
       listLoading: true,
       confirmEvent: () => {
         console.log('confirm!')
       },
-      userType: store.getters.user_type
+      userType: store.getters.user_type,
+      articleCount: ''
     }
   },
   watch: {
@@ -247,7 +263,6 @@ export default {
     }
   },
   created() {
-    console.log(this.userType)
     this.fetchData()
     this.getArticles()
   },
@@ -367,7 +382,18 @@ export default {
     },
     openDetails(row) {
       // redirect to list of articles of the group
-      alert(row.id)
+      /* const data = JSON.stringify(row.articles)
+      data.map(({ title, description }) => {
+        const articles = {
+          title: title,
+          description: description
+        }
+        this.articlesData.push(articles)
+      })
+      console.log(data)
+      this.dialogVisibleDetails = true */
+      // console.log(data)
+      // alert(data)
     }
   }
 }
