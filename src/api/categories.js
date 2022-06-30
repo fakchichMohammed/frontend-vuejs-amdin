@@ -60,7 +60,6 @@ export function deleteCategory(categoryInfo) {
   return new Promise((resolve, reject) => {
     remove({ title: title.trim(), description: description.trim() })
       .then((response) => {
-        console.log('inside category then')
         const { data } = response
 
         if (!data) {
@@ -68,12 +67,7 @@ export function deleteCategory(categoryInfo) {
         }
 
         // const { username, firstname } = data
-        console.log(data)
-        /* commit('SET_TOKEN', data.tokens.id_token)
-      setToken(data.tokens.id_token, data.tokens.expires_in)
-      commit('SET_NAME', username)
-      commit('SET_AVATAR', photo) */
-        // resolve()
+        resolve()
       })
       .catch((error) => {
         reject(error)
@@ -93,14 +87,11 @@ export function update(data, category_slug) {
 
 // handle edit category
 export function edit(categoryInfo, categorySlug) {
-  console.log('inside category edit then', categorySlug)
-  console.log(categoryInfo)
   const { title, description } = categoryInfo
   const slug = slugify(title)
   return new Promise((resolve, reject) => {
     update({ title: title.trim(), slug: slug, description: description.trim() }, categorySlug)
       .then((response) => {
-        console.log('inside category then')
         const { data } = response
 
         if (!data) {
@@ -108,12 +99,7 @@ export function edit(categoryInfo, categorySlug) {
         }
 
         // const { username, firstname } = data
-        console.log(data)
-        /* commit('SET_TOKEN', data.tokens.id_token)
-      setToken(data.tokens.id_token, data.tokens.expires_in)
-      commit('SET_NAME', username)
-      commit('SET_AVATAR', photo) */
-        // resolve()
+        resolve()
       })
       .catch((error) => {
         reject(error)

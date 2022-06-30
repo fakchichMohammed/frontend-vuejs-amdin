@@ -180,10 +180,12 @@ export default {
         if (valid) {
           this.loading = true
           try {
-            add(this.form)
-            this.fetchData()
+            // add(this.form)
+            add(this.form).then(() => {
+              this.fetchData()
+              this.$message('Category created successfully!')
+            })
             this.loading = false
-            this.$message('Category created successfully!')
           } catch (error) {
             this.loading = false
           }
@@ -211,7 +213,6 @@ export default {
     },
     deleteClick() { },
     editClick(row) {
-      console.log(row.slug)
       this.formEdit.title = row.title
       this.formEdit.description = row.description
       this.formEdit.slug = row.slug
@@ -221,7 +222,6 @@ export default {
     },
     getArticles(groupId) {
       // fetch articles of the group
-      console.log(groupId)
       this.formEdit.value = [
         'Mon article sur la block chaine que je ne kiff pas trou mais woow que du bkabka',
         'CSS',
@@ -232,9 +232,11 @@ export default {
       // delete category
       this.loading = true
       try {
-        deleteCategory(this.form)
-        this.loading = false
-        this.$message('Category deleted successfully!')
+        /* deleteCategory(this.form).then(() => {
+          this.fetchData()
+          this.$message('Category deleted successfully!')
+        })
+        this.loading = false */
       } catch (error) {
         this.loading = false
       }
@@ -247,12 +249,13 @@ export default {
     },
     onEdit() {
       // update category
-      console.log('edit', this.formEdit.slug)
       this.loading = true
       try {
-        edit(this.formEdit, this.formEdit.slug)
+        edit(this.formEdit, this.formEdit.slug).then(() => {
+          this.fetchData()
+          this.$message('Category updated successfully!')
+        })
         this.loading = false
-        this.$message('Category updated successfully!')
       } catch (error) {
         this.loading = false
       }
