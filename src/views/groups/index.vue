@@ -66,12 +66,12 @@
       </el-table-column>
       <el-table-column label="Owner" width="190" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.owner }}</span>
+          <span>{{ scope.row.author }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Articles" width="90" align="center">
         <template slot-scope="scope">
-          {{ scope.row.articles.length }}
+          {{ scope.row.articles }}
         </template>
       </el-table-column>
       <el-table-column
@@ -163,6 +163,7 @@
 </template>
 <script>
 import { getList, add, edit, deleteGroup } from '@/api/groups'
+import { getArticlesList } from '@/api/articles'
 
 export default {
   filters: {
@@ -248,6 +249,7 @@ export default {
   },
   created() {
     this.fetchData()
+    this.getArticles()
   },
   methods: {
     onSubmit() {
@@ -296,6 +298,25 @@ export default {
       this.canEdit = false
     },
     getArticles(groupId) {
+      if (!groupId) {
+        console.log('get articles')
+        this.listLoading = true
+        getArticlesList().then((response) => {
+          /* response.data.forEach(function(arrayItem) {
+            for (const [key, value] of Object.entries(arrayItem)) {
+              console.log(`${key}: ${value}`)
+            }
+          }) */
+          response.data.map(({ title, slug, id }) => {
+            console.log(`${title} with quantity ${slug} with price ${id}`)
+          })
+
+          /* const { title, slug, id } = response.data
+          // this.form.options = response.data
+          console.log(response.data) */
+          this.listLoading = false
+        })()
+      }
       // fetch articles of the group
       this.formEdit.articles = [
         'Mon article sur la block chaine que je ne kiff pas trou mais woow que du bkabka',

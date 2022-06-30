@@ -4,7 +4,7 @@ import { slugify } from '@/utils/slugfiy'
 const apiUrl = 'http://178.33.234.128:8022/api/articles/'
 
 // fetch list articles
-export function getList(params) {
+export function getArticlesList(params) {
   return request({
     url: apiUrl,
     method: 'get',
