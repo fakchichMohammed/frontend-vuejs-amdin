@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { slugify } from '@/utils/slugfiy'
 
 // fetch list category
 export function getList(params) {
@@ -23,8 +24,9 @@ export function create(params) {
 // handle add category
 export function add(categoryInfo) {
   const { title, description } = categoryInfo
+  const slug = slugify(title)
   return new Promise((resolve, reject) => {
-    create({ title: title.trim(), description: description.trim() }).then(response => {
+    create({ title: title.trim(), slug: slug, description: description.trim() }).then(response => {
       console.log('inside category then')
       const { data } = response
 
