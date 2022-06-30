@@ -1,12 +1,6 @@
 <template>
   <div class="login-container">
-    <el-form
-      ref="loginForm"
-      :model="loginForm"
-      class="login-form"
-      auto-complete="on"
-      label-position="left"
-    >
+    <el-form ref="loginForm" :model="loginForm" class="login-form" auto-complete="on" label-position="left">
       <div class="title-container">
         <h3 class="title">Login</h3>
       </div>
@@ -50,6 +44,12 @@
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
       >Login</el-button>
+      <el-button
+        :loading="loading"
+        type="info"
+        style="width: 100%; margin-bottom: 30px; margin-left: 0px;"
+        @click.native.prevent="handleRegister"
+      >Or Register</el-button>
     </el-form>
   </div>
 </template>
@@ -124,6 +124,9 @@ export default {
           return false
         }
       })
+    },
+    handleRegister() {
+      this.$router.push({ path: '/register' })
     }
   }
 }
@@ -159,7 +162,7 @@ $cursor: #fff;
 
       &:-webkit-autofill {
         box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
+        -webkit-text-fill-color: $cursor  !important;
       }
     }
   }

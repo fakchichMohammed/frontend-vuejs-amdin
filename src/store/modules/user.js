@@ -1,12 +1,12 @@
 import { login, logout, getInfo, register } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, getUserPhoto, setUsername, setUserPhoto, getUsername } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
     token: getToken(),
-    username: '',
-    photo: ''
+    username: getUsername(),
+    photo: getUserPhoto()
   }
 }
 
@@ -33,7 +33,7 @@ const actions = {
     const { username, password } = userInfo
     console.log('user store: ', userInfo)
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password, client_id: '249135', client_secret: '3f10dee1f069af8f9ef6cea626e5774f053319c37d211f27425f5b20' }).then(response => {
+      login({ username: username.trim(), password: password, client_id: '220243', client_secret: '67430d35f10a79df0e5171f10ad75863b957d8183091d3cfdc978d09' }).then(response => {
         console.log('inside login then')
         const { data } = response
 
@@ -43,10 +43,19 @@ const actions = {
 
         const { username, photo } = data
         console.log(data)
+
+        // save user token in local storage
         commit('SET_TOKEN', data.tokens.id_token)
         setToken(data.tokens.id_token, data.tokens.expires_in)
+
+        // save user name in cookies
         commit('SET_NAME', username)
+        setUsername(username)
+
+        // save user photo in cookies
         commit('SET_AVATAR', photo)
+        setUserPhoto(photo)
+
         resolve()
       }).catch(error => {
         reject(error)
@@ -56,7 +65,7 @@ const actions = {
 
   // register user
   register({ commit }, userInfo) {
-    const { firstname, lastname,username, email, password } = userInfo
+    const { firstname, lastname, username, email, password } = userInfo
     console.log('user store: ', userInfo)
     return new Promise((resolve, reject) => {
       register({ first_name: firstname.trim(), last_name: lastname.trim(), username: username.trim(), email: email.trim(), password: password.trim()}).then(response => {
@@ -67,7 +76,7 @@ const actions = {
           return reject('Verification failed, please try again.')
         }
 
-        const { username, firstname } = data
+        // const { username, firstname } = data
         console.log(data)
         /* commit('SET_TOKEN', data.tokens.id_token)
         setToken(data.tokens.id_token, data.tokens.expires_in)
