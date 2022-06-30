@@ -1,9 +1,6 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" :rules="CategoryRules" label-width="120px">
-      <div class="title-container">
-        <h2 class="title">Create Category : </h2>
-      </div>
       <el-form-item label="Category title" prop="title">
         <el-input
           ref="title"
@@ -184,6 +181,7 @@ export default {
           this.loading = true
           try {
             add(this.form)
+            this.fetchData()
             this.loading = false
             this.$message('Category created successfully!')
           } catch (error) {
