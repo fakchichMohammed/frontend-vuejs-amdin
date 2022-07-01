@@ -62,12 +62,13 @@
     </el-table>
 
     <el-dialog :visible="dialogVisible" title="Edit your article" width="70%">
-      <el-form ref="formEdit" :model="formEdit" label-width="120px">
-        <el-form-item label="Title" required>
-          <el-input v-model="formEdit.title" />
+      <el-form ref="formEdit" :model="formEdit" :rules="ArticleRules" label-width="120px">
+        <el-form-item label="Title" prop="title">
+          <el-input ref="title" v-model="formEdit.title" />
         </el-form-item>
-        <el-form-item label="Categories" required>
+        <el-form-item label="Categories" prop="categoriesSelected">
           <el-select
+            ref="categoriesSelected"
             v-model="formEdit.categories"
             style="display: block"
             multiple
@@ -78,14 +79,15 @@
           >
             <el-option
               v-for="category in categories"
-              :key="category.slug"
+              :key="category.id"
               :label="category.title"
               :value="category.slug"
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="Content">
+        <el-form-item label="Content" prop="content">
           <el-input
+            ref="content"
             v-model="formEdit.content"
             type="textarea"
           />
@@ -106,7 +108,8 @@
 </template>
 
 <script>
-import { getMyArticles } from '@/api/articles'
+import { getMyArticles, deleteArticle } from '@/api/articles'
+import { getList } from '@/api/categories'
 
 export default {
   data() {
@@ -120,27 +123,32 @@ export default {
         categories: [],
         content: ''
       },
-      categories: [
-        {
-          slug: 'HTML',
-          title:
-              'Mon article sur la block chaine que je ne kiff pas trou mais woow que du bkabka'
-        },
-        {
-          slug: 'CSS',
-          title: 'CSS'
-        },
-        {
-          slug: 'JavaScript',
-          title: 'JavaScript'
-        }
-      ]
+      categories: [],
+      ArticleRules: {
+        title: [
+          { required: true, trigger: 'blur' }
+        ],
+        content: [
+          { required: true, trigger: 'blur' }
+        ],
+        categoriesSelected: [
+          { required: true, trigger: 'blur' }
+        ]
+      }
     }
   },
-  created() {
+  mounted() {
     this.fetchData()
+    this.getCategories()
   },
   methods: {
+    getCategories() {
+      this.listLoading = true
+      getList().then((response) => {
+        this.categories = response.data
+        this.listLoading = false
+      })
+    },
     fetchData() {
       this.listLoading = true
       getMyArticles().then((response) => {
@@ -150,15 +158,27 @@ export default {
       })
     },
     editArticle(article) {
-      console.log(article.id)
       this.formEdit.title = article.title
       this.formEdit.content = article.content
       this.formEdit.categories = article.categories
+      console.log(this.formEdit.categories)
       this.dialogVisible = true
       this.canEdit = false
     },
     confirmDelete(row) {
-      console.log('clicked on delete', row)
+      try {
+        deleteArticle(row.slug).then(response => {
+          const data = JSON.parse(response.data)
+          if (data.error) {
+            this.$message('Failed : ' + data.message)
+          } else {
+            console.log(data.message)
+            this.$message('Success : ' + data.message)
+          }
+        })
+      } catch (error) {
+        this.$message('Error : ' + error.messge)
+      }
       this.visible = false
       this.$emit('onConfirm')
     },

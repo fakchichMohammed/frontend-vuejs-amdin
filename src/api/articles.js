@@ -31,65 +31,12 @@ export function createArticle(data) {
   })
 }
 
-// create article
-export function create(data) {
-  return request({
-    url: apiUrl,
-    method: 'post',
-    headers: { 'Content-Type': 'application/json' },
-    data
-  })
-}
-
-// handle add article
-export function add(articleInfo) {
-  const { title, description } = articleInfo
-  const slug = slugify(title)
-  return new Promise((resolve, reject) => {
-    create({ title: title.trim(), slug: slug, description: description.trim() })
-      .then((response) => {
-        const { data } = response
-
-        if (!data) {
-          return reject('Creation failed, please try again.')
-        }
-        // const { username, firstname } = data
-        resolve()
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
 // remove article
-export function remove(params) {
+export function deleteArticle(slug) {
   return request({
-    url: apiUrl,
-    method: 'put',
-    headers: { 'Content-Type': 'application/json' },
-    params
-  })
-}
-
-// handle delete article
-export function deleteArticle(articleInfo) {
-  const { title, description } = articleInfo
-  return new Promise((resolve, reject) => {
-    remove({ title: title.trim(), description: description.trim() })
-      .then((response) => {
-        const { data } = response
-
-        if (!data) {
-          return reject('Delete failed, please try again.')
-        }
-
-        // const { username, firstname } = data
-        resolve()
-      })
-      .catch((error) => {
-        reject(error)
-      })
+    url: apiUrl + slug,
+    method: 'delete',
+    headers: { 'Content-Type': 'application/json' }
   })
 }
 
