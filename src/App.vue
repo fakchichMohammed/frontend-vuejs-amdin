@@ -5,7 +5,13 @@
 </template>
 
 <script>
+import store from '@/store/index'
 export default {
-  name: 'App'
+  name: 'App',
+  data() {
+    return {
+      userType: store.getters.user_typ
+    }
+  },
 }
 </script>

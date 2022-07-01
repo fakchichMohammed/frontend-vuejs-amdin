@@ -28,6 +28,7 @@ export function create(data) {
 export function add(groupInfo) {
   const { title, description, articles } = groupInfo
   const slug = slugify(title)
+  console.log(articles)
   return new Promise((resolve, reject) => {
     create({ title: title.trim(), slug: slug, description: description.trim(), articles: articles, publisher: store.state.user.userId })
       .then((response) => {
@@ -46,19 +47,18 @@ export function add(groupInfo) {
 }
 
 // remove group
-export function remove(params) {
+export function remove(slug) {
   return request({
-    url: apiUrl,
+    url: apiUrl + slug,
     method: 'delete',
-    headers: { 'Content-Type': 'application/json' },
-    params
+    headers: { 'Content-Type': 'application/json' }
   })
 }
 
 // handle delete group
 export function deleteGroup(slug) {
   return new Promise((resolve, reject) => {
-    remove({ slug })
+    remove(slug)
       .then((response) => {
         const { data } = response
 
