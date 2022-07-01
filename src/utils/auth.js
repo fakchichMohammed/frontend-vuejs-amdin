@@ -8,7 +8,7 @@ const FirstName = 'first_name'
 const LastName = 'last_name'
 const UserEmail = 'email'
 const UserId = 'user_id'
-const UserType = 'user_type'
+// const UserType = 'user_type'
 
 export function getToken() {
   return window.localStorage.getItem(TokenKey)
@@ -66,13 +66,13 @@ export function getEmail() {
   return Cookies.get(UserEmail)
 }
 
-export function setUserType(userType) {
-  return Cookies.set(UserType, userType)
-}
+// export function setUserType(userType) {
+//   return Cookies.set(UserType, userType)
+// }
 
-export function getUserType() {
-  return Cookies.get(UserType)
-}
+// export function getUserType() {
+//   return Cookies.get(UserType)
+// }
 
 export function setUserPhoto(userPhoto) {
   return Cookies.set(UserPhoto, userPhoto)

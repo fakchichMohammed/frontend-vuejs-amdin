@@ -15,8 +15,8 @@ import {
   getLastName,
   setEmail,
   getEmail,
-  getUserType,
-  setUserType,
+  // getUserType,
+  // setUserType,
   removeUserInfo
 } from '@/utils/auth'
 import { resetRouter } from '@/router'
@@ -29,7 +29,7 @@ const getDefaultState = () => {
     first_name: getFirstname(),
     last_name: getLastName(),
     email: getEmail(),
-    user_type: getUserType(),
+    // user_type: getUserType(),
     userId: getUserId()
   }
 }
@@ -113,8 +113,8 @@ const actions = {
           setEmail(email)
           console.log(email, data)
 
-          commit('SET_USER_TYPE', user_type)
-          setUserType(user_type)
+          // commit('SET_USER_TYPE', user_type)
+          // setUserType(user_type)
 
           // save user photo in cookies
           commit('SET_AVATAR', photo)

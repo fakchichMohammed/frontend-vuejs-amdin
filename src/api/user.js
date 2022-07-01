@@ -17,12 +17,12 @@ export function getInfo(token) {
   })
 }
 
-export function logout() {
-  return request({
-    url: '/api/user/logout',
-    method: 'post'
-  })
-}*/
+// export function logout() {
+//   return request({
+//     url: '/api/user/logout',
+//     method: 'post'
+//   })
+// }*/
 
 export function register(data) {
   return request({
