@@ -103,14 +103,14 @@ export default {
               category: categoriesToSubmit
             }).then(response => console.log(response))
             this.loading = false
-            this.$message('Category created successfully!')
+            this.$message('Article created successfully!')
           } catch (error) {
             this.loading = false
-            this.$message('Category creation failed !')
+            this.$message('Article creation failed !')
             console.log(error.message)
           }
         } else {
-          console.log('Category error!!')
+          console.log('Article error!!')
           return false
         }
       })
