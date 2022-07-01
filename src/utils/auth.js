@@ -86,7 +86,7 @@ export function removeUserInfo() {
   Cookies.remove(UserEmail)
   Cookies.remove(UserName)
   Cookies.remove(UserId)
-  Cookies.remove(UserType)
+  // Cookies.remove(UserType)
   Cookies.remove(UserPhoto)
   Cookies.remove(FirstName)
   Cookies.remove(LastName)
