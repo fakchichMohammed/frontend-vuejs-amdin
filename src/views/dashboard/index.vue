@@ -14,7 +14,7 @@
         <el-input v-model=" email " class="dashboard-input" disabled />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">Edit</el-button>
+        <el-button type="primary" >Edit</el-button>
       </el-form-item>
     </el-form>
   </div>
