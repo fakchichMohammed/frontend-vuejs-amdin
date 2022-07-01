@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 import { slugify } from '@/utils/slugfiy'
+import store from '@/store/index'
 
 const apiUrl = 'http://178.33.234.128:8022/api/groups/'
 
@@ -26,10 +27,9 @@ export function create(data) {
 // handle add group
 export function add(groupInfo) {
   const { title, description, articles } = groupInfo
-  console.log('articles', articles);
   const slug = slugify(title)
   return new Promise((resolve, reject) => {
-    create({ title: title.trim(), slug: slug, description: description.trim(), articles: articles })
+    create({ title: title.trim(), slug: slug, description: description.trim(), articles: articles, publisher: store.state.user.userId })
       .then((response) => {
         const { data } = response
 
@@ -49,17 +49,16 @@ export function add(groupInfo) {
 export function remove(params) {
   return request({
     url: apiUrl,
-    method: 'put',
+    method: 'delete',
     headers: { 'Content-Type': 'application/json' },
     params
   })
 }
 
 // handle delete group
-export function deleteGroup(groupInfo) {
-  const { title, description } = groupInfo
+export function deleteGroup(slug) {
   return new Promise((resolve, reject) => {
-    remove({ title: title.trim(), description: description.trim() })
+    remove({ slug })
       .then((response) => {
         const { data } = response
 
