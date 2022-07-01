@@ -351,7 +351,7 @@ export default {
       // delete group
       this.loading = true
       try {
-        deleteGroup(this.form).then(() => {
+        deleteGroup(row.slug).then(() => {
           this.fetchData()
           this.$message('Category deleted successfully!')
         })
