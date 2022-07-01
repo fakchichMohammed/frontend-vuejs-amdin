@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-table
       v-loading="listLoading"
-      :data="list"
+      :data="articlesList"
       element-loading-text="Loading"
       border
       fit
@@ -15,52 +15,54 @@
       </el-table-column>
       <el-table-column label="Title">
         <template slot-scope="scope">
-          {{ scope.row.title }}
+          <el-link>
+            {{ scope.row.title }}
+          </el-link>
         </template>
       </el-table-column>
-      <el-table-column label="Author" width="110" align="center">
+      <el-table-column label="Categories" width="190" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.author }}</span>
+          <ul>
+            <li v-for="category in scope.row.categories" :key="category.id">{{ category.title }}</li>
+          </ul>
         </template>
       </el-table-column>
-      <el-table-column label="Pageviews" width="110" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.pageviews }}
-        </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" label="Status" width="110" align="center">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" prop="created_at" label="Display_time" width="200">
-        <template slot-scope="scope">
-          <i class="el-icon-time" />
-          <span>{{ scope.row.display_time }}</span>
-        </template>
-      </el-table-column>
+
     </el-table>
+
   </div>
 </template>
 
 <script>
-import { getList } from '@/api/articles'
+import { getArticlesList } from '@/api/articles'
 
 export default {
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'gray',
-        deleted: 'danger'
-      }
-      return statusMap[status]
-    }
-  },
   data() {
     return {
-      list: null,
-      listLoading: true
+      dialogVisible: false,
+      canEdit: true,
+      articlesList: [],
+      listLoading: true,
+      formEdit: {
+        title: '',
+        categories: [],
+        content: ''
+      },
+      categories: [
+        {
+          slug: 'HTML',
+          title:
+              'Mon article sur la block chaine que je ne kiff pas trou mais woow que du bkabka'
+        },
+        {
+          slug: 'CSS',
+          title: 'CSS'
+        },
+        {
+          slug: 'JavaScript',
+          title: 'JavaScript'
+        }
+      ]
     }
   },
   created() {
@@ -69,10 +71,31 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      getList().then(response => {
-        this.list = response.data.items
+      getArticlesList().then((response) => {
+        this.articlesList = response.data
         this.listLoading = false
+        console.log('ok')
       })
+    },
+    editArticle(article) {
+      console.log(article.id)
+      this.formEdit.title = article.title
+      this.formEdit.content = article.content
+      this.formEdit.categories = article.categories
+      this.dialogVisible = true
+      this.canEdit = false
+    },
+    confirmDelete(row) {
+      console.log('clicked on delete', row)
+      this.visible = false
+      this.$emit('onConfirm')
+    },
+    cancelDelete() {
+      this.visible = false
+      this.$emit('onCancel')
+    },
+    updateArticle() {
+      console.log('update article')
     }
   }
 }

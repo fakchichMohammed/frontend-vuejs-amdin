@@ -46,19 +46,18 @@ export function add(groupInfo) {
 }
 
 // remove group
-export function remove(params) {
+export function remove(slug) {
   return request({
-    url: apiUrl,
+    url: apiUrl + slug,
     method: 'delete',
-    headers: { 'Content-Type': 'application/json' },
-    params
+    headers: { 'Content-Type': 'application/json' }
   })
 }
 
 // handle delete group
 export function deleteGroup(slug) {
   return new Promise((resolve, reject) => {
-    remove({ slug })
+    remove(slug)
       .then((response) => {
         const { data } = response
 
@@ -87,10 +86,10 @@ export function update(data, group_slug) {
 
 // handle edit group
 export function edit(groupInfo, groupSlug) {
-  const { title, description } = groupInfo
+  const { title, description, articles } = groupInfo
   const slug = slugify(title)
   return new Promise((resolve, reject) => {
-    update({ title: title.trim(), slug: slug, description: description.trim() }, groupSlug)
+    update({ title: title.trim(), slug: slug, description: description.trim(), articles: articles }, groupSlug)
       .then((response) => {
         const { data } = response
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div v-if="userType === 'Author'" class="app-container">
     <el-form ref="form" :model="form" :rules="ArticleRules" label-width="120px">
 
       <el-form-item label="Title" prop="title">
@@ -68,7 +68,8 @@ export default {
         categoriesSelected: [
           { required: true, trigger: 'blur' }
         ]
-      }
+      },
+      userType: store.getters.user_type
     }
   },
   mounted() {
