@@ -28,7 +28,6 @@ export function create(data) {
 export function add(groupInfo) {
   const { title, description, articles } = groupInfo
   const slug = slugify(title)
-  console.log(articles)
   return new Promise((resolve, reject) => {
     create({ title: title.trim(), slug: slug, description: description.trim(), articles: articles, publisher: store.state.user.userId })
       .then((response) => {
@@ -87,10 +86,10 @@ export function update(data, group_slug) {
 
 // handle edit group
 export function edit(groupInfo, groupSlug) {
-  const { title, description } = groupInfo
+  const { title, description, articles } = groupInfo
   const slug = slugify(title)
   return new Promise((resolve, reject) => {
-    update({ title: title.trim(), slug: slug, description: description.trim() }, groupSlug)
+    update({ title: title.trim(), slug: slug, description: description.trim(), articles: articles }, groupSlug)
       .then((response) => {
         const { data } = response
 

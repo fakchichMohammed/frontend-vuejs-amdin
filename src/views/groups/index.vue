@@ -189,6 +189,7 @@
 import { getList, add, edit, deleteGroup } from '@/api/groups'
 import { getArticlesList } from '@/api/articles'
 import store from '@/store/index'
+import { title } from 'process'
 
 export default {
   filters: {
@@ -310,8 +311,18 @@ export default {
       this.formEdit.title = row.title
       this.formEdit.description = row.description
       this.formEdit.slug = row.slug
-      // this.getArticles(row.id)
+      // this.formEdit.articles = row.articles
+      const editArticles = row.articles
+      editArticles.map(({ title, slug, id }) => {
+        console.log(title)
+        const dataArticles = {
+          value: id,
+          label: title
+        }
+        this.formEdit.articles.push(dataArticles)
+      })
       this.dialogVisible = true
+      this.getArticles(row.id)
       this.canEdit = false
     },
     getArticles(row) {
@@ -336,7 +347,7 @@ export default {
               value: id,
               label: title
             }
-            this.form.options.push(articles)
+            this.formEdit.options.push(articles)
           })
           this.listLoading = false
         })()
